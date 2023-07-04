@@ -1,5 +1,6 @@
 //setup for testing backend
 const mongoose = require("mongoose");
+const Blog = require("./models/blog");
 
 module.exports = async () => {
   const mongoUri = process.env.MONGODB_URI;
