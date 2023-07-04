@@ -3,8 +3,10 @@ const Blog = require("../models/blog");
 
 blogRouter.get("/", (request, response) => {
   Blog.find({}).then((blogs) => {
+    console.log("we got here");
     response.json(blogs);
   });
+  // response.send("gamer");
 });
 
 blogRouter.post("/", (request, response) => {

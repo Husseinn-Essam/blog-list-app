@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+//require("express-async-errors");
 const Blog = require("./models/blog");
 const cors = require("cors");
 const mongoose = require("mongoose");
