@@ -74,3 +74,45 @@ describe("post blog", () => {
     await api.post("/api/blogs").send(invalidBlog).expect(400);
   });
 });
+
+describe("deleting a blog", () => {
+  test("delete a blog", async () => {
+    const blogToBeDeleted = initialBlogs[0];
+    await api.delete(`/api/blogs/${blogToBeDeleted._id}`).expect(204);
+    const response = await api.get("/api/blogs");
+    const titles = response.body.map((r) => r.title);
+    expect(response.body.length).toBe(initialBlogs.length - 1);
+    expect(titles).not.toContain(blogToBeDeleted.title);
+  });
+});
+
+describe("getting a single blog", () => {
+  test("get a blog by its id", async () => {
+    await api
+      .get(`/api/blogs/${initialBlogs[0]._id}`)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+  });
+});
+
+describe("update a blog", () => {
+  test("update an existing blog", async () => {
+    const blogToUpdate = initialBlogs[0];
+
+    const updatedBlog = {
+      title: "Updated Title",
+      author: "Updated Author",
+      url: "http://updated-url.com",
+      likes: 10,
+    };
+    console.log(blogToUpdate._id);
+    console.log(blogToUpdate.id);
+
+    await api
+      .put(`/api/blogs/${initialBlogs[0]._id}`)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAfterUpdate = await api.get("/api/blogs");
+  }, 100000);
+});

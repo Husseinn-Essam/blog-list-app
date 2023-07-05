@@ -33,6 +33,10 @@
     "node": ">=14.20.1"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/helper.js" 
+    ]
   }
 }
