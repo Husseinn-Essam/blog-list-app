@@ -1,26 +1,33 @@
 const blogRouter = require("express").Router();
 const { response } = require("../app");
-const blog = require("../models/blog");
 const Blog = require("../models/blog");
 const { error } = require("../utils/logger");
 const asyncHandler = require("express-async-errors");
 const errorHandler = require("../utils/middleware");
-
-blogRouter.get("/", (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
-  });
+const User = require("../models/usersSchema");
+blogRouter.get("/", async (request, response) => {
+  const blogs = await Blog.find({}).populate("user");
+  response.json(blogs);
 });
 
 blogRouter.post("/", async (request, response) => {
-  const blog = new Blog(request.body);
+  const body = request.body;
+  const user = await User.findById(body.user);
+  const newBlog = new Blog({
+    title: request.body.title,
+    author: request.body.author,
+    user: user._id,
+    url: request.body.url,
+    likes: request.body.likes,
+  });
   const { title, url } = request.body;
 
   if (!title || !url) {
     return response.status(400).json({ error: "Title and URL are required" });
   }
-  const result = await blog.save();
-
+  const result = await newBlog.save();
+  user.blogs = user.blogs.concat(result);
+  await user.save();
   response.status(201).json(result);
 });
 
