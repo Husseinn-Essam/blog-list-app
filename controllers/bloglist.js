@@ -2,7 +2,10 @@ const blogRouter = require("express").Router();
 const { response } = require("../app");
 const blog = require("../models/blog");
 const Blog = require("../models/blog");
-require("express-async-errors");
+const { error } = require("../utils/logger");
+const asyncHandler = require("express-async-errors");
+const errorHandler = require("../utils/middleware");
+
 blogRouter.get("/", (request, response) => {
   Blog.find({}).then((blogs) => {
     response.json(blogs);
@@ -32,10 +35,17 @@ blogRouter.delete("/:id", async (request, response) => {
   response.status(204).end();
 });
 
-blogRouter.get("/:id", async (request, response) => {
-  const blogToBeSent = await Blog.findById(request.params.id);
-
-  response.json(blogToBeSent);
+blogRouter.get("/:id", async (request, response, next) => {
+  try {
+    const blogToBeSent = await Blog.findById(request.params.id);
+    if (blogToBeSent) {
+      response.json(blogToBeSent);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    errorHandler(error, request, response, next);
+  }
 });
 
 blogRouter.put("/:id", async (req, res) => {
@@ -45,11 +55,9 @@ blogRouter.put("/:id", async (req, res) => {
     url: req.body.url,
     likes: req.body.likes,
   };
-  console.log(newBlog);
   let updateBlog = await Blog.findByIdAndUpdate(req.params.id, newBlog, {
     new: true,
   });
-  console.log(updateBlog);
   res.json(updateBlog);
 });
 

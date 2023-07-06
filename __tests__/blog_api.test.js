@@ -93,6 +93,10 @@ describe("getting a single blog", () => {
       .expect(200)
       .expect("Content-Type", /application\/json/);
   });
+  test("non exiting id", async () => {
+    const badId = 123;
+    await api.get(`/api/blogs/${badId}`).expect(400);
+  }, 100000);
 });
 
 describe("update a blog", () => {
@@ -105,8 +109,6 @@ describe("update a blog", () => {
       url: "http://updated-url.com",
       likes: 10,
     };
-    console.log(blogToUpdate._id);
-    console.log(blogToUpdate.id);
 
     await api
       .put(`/api/blogs/${initialBlogs[0]._id}`)
