@@ -73,7 +73,6 @@ describe("post blog", () => {
       password: "chainsaw",
     });
     const token = loginResponse.body.token;
-    console.log(token);
     await api
       .post("/api/blogs")
       .set("Authorization", `Bearer ${token}`)
