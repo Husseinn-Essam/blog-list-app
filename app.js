@@ -9,7 +9,11 @@ const userRouter = require("./controllers/userRouter");
 const loginRouter = require("./controllers/login");
 const { info, error } = require("./utils/logger");
 const config = require("./utils/config");
-const { errorHandler, tokenExtractor } = require("./utils/middleware");
+const {
+  errorHandler,
+  tokenExtractor,
+  userExtractor,
+} = require("./utils/middleware");
 mongoose.set("strictQuery", false);
 
 info("connecting to", config.MONGODB_URI);
@@ -28,8 +32,8 @@ app.use(cors());
 app.use(express.static("build"));
 app.use(errorHandler);
 app.use(tokenExtractor);
+app.use("/api/blogs", userExtractor);
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
-console.log("i got here");
 module.exports = app;
