@@ -12,29 +12,39 @@ blogRouter.get("/", async (request, response) => {
 });
 
 blogRouter.post("/", async (request, response) => {
-  const body = request.body;
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: "token invalid" });
-  }
-  const user = request.user;
+  try {
+    const body = request.body;
+    console.log(request.token);
+    if (!request.token) {
+      console.log("i got here");
+      response.status(401).json({ error: "token missing or invalid" });
+    }
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: "token invalid" });
+    }
 
-  const newBlog = new Blog({
-    title: request.body.title,
-    author: request.body.author,
-    user: user._id,
-    url: request.body.url,
-    likes: request.body.likes,
-  });
-  const { title, url } = request.body;
+    const user = request.user;
 
-  if (!title || !url) {
-    return response.status(400).json({ error: "Title and URL are required" });
+    const newBlog = new Blog({
+      title: request.body.title,
+      author: request.body.author,
+      user: user._id,
+      url: request.body.url,
+      likes: request.body.likes,
+    });
+    const { title, url } = request.body;
+
+    if (!title || !url) {
+      return response.status(400).json({ error: "Title and URL are required" });
+    }
+    const result = await newBlog.save();
+    user.blogs = user.blogs.concat(result);
+    await user.save();
+    response.status(201).json(result);
+  } catch {
+    response.status(401);
   }
-  const result = await newBlog.save();
-  user.blogs = user.blogs.concat(result);
-  await user.save();
-  response.status(201).json(result);
 });
 
 blogRouter.delete("/:id", async (request, response) => {
@@ -76,6 +86,7 @@ blogRouter.get("/:id", async (request, response, next) => {
   try {
     const blogToBeSent = await Blog.findById(request.params.id);
     console.log(blogToBeSent);
+
     if (blogToBeSent) {
       response.json(blogToBeSent);
     } else {

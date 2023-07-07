@@ -170,3 +170,21 @@ describe("update a blog", () => {
     const blogsAfterUpdate = await api.get("/api/blogs");
   }, 100000);
 });
+
+describe("token auth", () => {
+  test("adding a blog without a token returns 401 Unauthorized", async () => {
+    const newBlog = {
+      title: "Test Blog",
+      author: "Test Author",
+      url: "http://www.test.com",
+      likes: 0,
+    };
+    const invalidToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoYWQiLCJpZCI6IjY0YTcxZDI4OTRlZGNjOWQxMWViMGE3NCIsImlhdCI6MTY4ODY3Mzc3OX0.stRayp1ft2GMp9F6ZQ4R9FKpneAY6rM9O21SEh7Xq5s";
+    await api
+      .post("/api/blogs")
+      .set("Authorization", ` `)
+      .send(newBlog)
+      .expect(401);
+  });
+});
