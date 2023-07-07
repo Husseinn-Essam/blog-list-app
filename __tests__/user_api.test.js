@@ -6,7 +6,7 @@ const Blog = require("../models/blog");
 const blog = require("../models/blog");
 const api = supertest(app);
 describe("creating users", () => {
-  test.only("creating a user with a short username returns 400", async () => {
+  test("creating a user with a short username returns 400", async () => {
     const newUser = {
       username: "ab",
       name: "gmaer",

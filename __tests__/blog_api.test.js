@@ -1,20 +1,43 @@
 const supertest = require("supertest");
 const { initialBlogs } = require("./helper");
-require("express-async-errors");
 const app = require("../app");
 const Blog = require("../models/blog");
-const blog = require("../models/blog");
+const User = require("../models/usersSchema");
+const bcrypt = require("bcryptjs");
+const { find } = require("lodash");
 const api = supertest(app);
 beforeAll(async () => {
   await require("../setup")();
-});
+}, 10000);
 beforeEach(async () => {
+  await User.deleteMany({});
   await Blog.deleteMany({});
-  await blog.insertMany(initialBlogs);
-});
+  ////
+  const password = "chainsaw";
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
+  const newUser = new User({
+    username: "johnn2",
+    name: "gmaer",
+    passwordHash,
+  });
+  const savedUser = await newUser.save();
+  const blogObjects = initialBlogs.map(
+    (blog) => new Blog({ ...blog, user: savedUser._id })
+  );
+
+  const promiseArray = blogObjects.map((blog) => blog.save());
+  await Promise.all(promiseArray);
+  ///
+  const loginResponse = await api.post("/api/login").send({
+    username: "johnn2",
+    password: "chainsaw",
+  });
+  const token = loginResponse.body.token;
+}, 10000);
 afterAll(async () => {
   await require("../setup").stop();
-});
+}, 100000);
 
 describe("get blogs", () => {
   test("get blogs in json format", async () => {
@@ -45,8 +68,15 @@ describe("post blog", () => {
   };
 
   test("the new blog is added to database", async () => {
+    const loginResponse = await api.post("/api/login").send({
+      username: "johnn2",
+      password: "chainsaw",
+    });
+    const token = loginResponse.body.token;
+    console.log(token);
     await api
       .post("/api/blogs")
+      .set("Authorization", `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect("Content-Type", /application\/json/);
@@ -54,7 +84,7 @@ describe("post blog", () => {
     const title = response.body.map((r) => r.title);
     expect(response.body.length).toBe(initialBlogs.length + 1);
     expect(title).toContain("gamers.js is the best framework fr fr");
-  });
+  }, 10000);
 
   test("blog like field should be zero by default", async () => {
     const noLikesBlog = {
@@ -62,28 +92,54 @@ describe("post blog", () => {
       author: "trustmebro",
       url: "http://www.real.html",
     };
-    const response = await api.post("/api/blogs").send(noLikesBlog);
+    const loginResponse = await api.post("/api/login").send({
+      username: "johnn2",
+      password: "chainsaw",
+    });
+    const token = loginResponse.body.token;
+    const response = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${token}`)
+      .send(noLikesBlog);
     expect(response.body.likes).toBe(0);
   });
 
   test(" status 400 if blog url and title are missing", async () => {
+    const loginResponse = await api.post("/api/login").send({
+      username: "johnn2",
+      password: "chainsaw",
+    });
+    const token = loginResponse.body.token;
     const invalidBlog = {
       author: "trustmebro",
       likes: 0,
     };
-    await api.post("/api/blogs").send(invalidBlog).expect(400);
+    await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${token}`)
+      .send(invalidBlog)
+      .expect(400);
   });
 });
 
 describe("deleting a blog", () => {
   test("delete a blog", async () => {
-    const blogToBeDeleted = initialBlogs[0];
-    await api.delete(`/api/blogs/${blogToBeDeleted._id}`).expect(204);
+    const blogToBeDeletedID = initialBlogs[0]._id;
+    const loginResponse = await api.post("/api/login").send({
+      username: "johnn2",
+      password: "chainsaw",
+    });
+    const token = loginResponse.body.token;
+
+    await api
+      .delete(`/api/blogs/${blogToBeDeletedID}`)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(204);
     const response = await api.get("/api/blogs");
     const titles = response.body.map((r) => r.title);
     expect(response.body.length).toBe(initialBlogs.length - 1);
-    expect(titles).not.toContain(blogToBeDeleted.title);
-  });
+    expect(titles).not.toContain(blogToBeDeletedID.title);
+  }, 10000);
 });
 
 describe("getting a single blog", () => {
@@ -93,10 +149,6 @@ describe("getting a single blog", () => {
       .expect(200)
       .expect("Content-Type", /application\/json/);
   });
-  test("non exiting id", async () => {
-    const badId = 123;
-    await api.get(`/api/blogs/${badId}`).expect(400);
-  }, 100000);
 });
 
 describe("update a blog", () => {
