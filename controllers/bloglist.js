@@ -10,13 +10,7 @@ blogRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate("user");
   response.json(blogs);
 });
-const getTokenFrom = (request) => {
-  const authorization = request.get("authorization");
-  if (authorization && authorization.startsWith("Bearer ")) {
-    return authorization.replace("Bearer ", "");
-  }
-  return null;
-};
+
 blogRouter.post("/", async (request, response) => {
   const body = request.body;
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
@@ -45,11 +39,30 @@ blogRouter.post("/", async (request, response) => {
 
 blogRouter.delete("/:id", async (request, response) => {
   const { id } = request.params;
-  const { deletedCount } = await Blog.deleteOne({ _id: id });
-
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "token invalid" });
+  }
+  const user = await User.findById(decodedToken.id);
+  const blogToDelete = await Blog.findById(id);
+  if (blogToDelete.user.toString() !== decodedToken.id) {
+    return response
+      .status(403)
+      .json({ error: "Unauthorized to delete this blog" });
+  }
   if (deletedCount === 0) {
     return response.status(404).json({ error: "Blog not found" });
   }
+  const { deletedCount } = await Blog.deleteOne({ _id: id });
+
+  await Blog.findByIdAndRemove(request.params.id);
+  user.blogs = user.blogs.filter(
+    (blogId) => blogId.toString() !== request.params.id
+  );
+  await user.save();
+
+  // Retrieve the updated user object with the populated blogs
+  const updatedUser = await User.findById(decodedToken.id).populate("blogs");
 
   response.status(204).end();
 });
