@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import Login from "./components/Login";
 import loginService from "./services/login";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
@@ -12,10 +13,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [succMessage, setSucc] = useState(null);
   const [errMessage, setErr] = useState(null);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
-  const [loginVisible, setLoginVisible] = useState(false);
+  const blogFormRef = useRef();
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
@@ -57,17 +55,11 @@ const App = () => {
     }
   };
 
-  const handleBlogSubmit = async (e) => {
-    e.preventDefault();
+  const handleBlogSubmit = async (blogObj) => {
     try {
-      const newBlog = {
-        title,
-        author,
-        url,
-      };
-      blogService.create(newBlog);
-
-      setSucc(`A new blog "${newBlog.title}" by ${newBlog.author}`);
+      blogFormRef.current.toggleVisibility();
+      blogService.create(blogObj);
+      setSucc(`A new blog "${blogObj.title}" by ${blogObj.author}`);
       setTimeout(() => {
         setSucc(null);
       }, 5000);
@@ -84,26 +76,22 @@ const App = () => {
       <h2>blogs</h2>
       <Notification succMessage={succMessage} errMessage={errMessage} />
       {user === null ? (
-        <Login
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
+        <Togglable buttonLabel="login">
+          <Login
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
+          />
+        </Togglable>
       ) : (
         <div>
           <p>{user.username} is logged in</p>
           <button onClick={handleLogout}>logout</button>
-          <BlogForm
-            title={title}
-            setTitle={setTitle}
-            author={author}
-            setAuthor={setAuthor}
-            url={url}
-            setUrl={setUrl}
-            handleBlogSubmit={handleBlogSubmit}
-          />
+          <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
+            <BlogForm createBlog={handleBlogSubmit} />
+          </Togglable>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
