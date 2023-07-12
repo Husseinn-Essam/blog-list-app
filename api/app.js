@@ -16,8 +16,6 @@ const {
 } = require("./utils/middleware");
 mongoose.set("strictQuery", false);
 
-info("connecting to", config.MONGODB_URI);
-
 mongoose
   .connect(config.MONGODB_URI)
   .then(() => {

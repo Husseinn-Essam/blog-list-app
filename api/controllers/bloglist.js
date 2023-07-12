@@ -6,8 +6,9 @@ const { error } = require("../utils/logger");
 const errorHandler = require("../utils/middleware");
 const User = require("../models/usersSchema");
 const jwt = require("jsonwebtoken");
+
 blogRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user");
+  const blogs = await Blog.find({});
   response.json(blogs);
 });
 
