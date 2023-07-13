@@ -85,6 +85,20 @@ const App = () => {
     return updatedBlog;
   };
 
+  const handleRemoveBlog = async (blog) => {
+    try {
+      const result = window.confirm(
+        `Are you sure you want to remove ${blog.title}`
+      );
+      if (result) {
+        await blogService.remove(blog.id);
+        const updatedBlogs = await blogService.getAll();
+        setBlogs(updatedBlogs);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <h2>blogs</h2>
@@ -112,6 +126,7 @@ const App = () => {
               blog={blog}
               user={user}
               likeBlog={handleLikeBlog}
+              removeBlog={handleRemoveBlog}
             />
           ))}
         </div>
