@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 const Login = ({
   username,
   setUsername,
@@ -31,5 +32,8 @@ const Login = ({
     </>
   );
 };
-
+Login.propTypes = {
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+};
 export default Login;
