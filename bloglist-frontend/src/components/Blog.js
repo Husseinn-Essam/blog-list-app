@@ -24,24 +24,30 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
   return (
     <div style={blogStyle}>
       {!details ? (
-        <>
-          {blog.title} {blog.author}{" "}
-          <button onClick={toggleDetails}>View</button>
-        </>
+        <div className="blogHead">
+          {blog.title} {blog.author}
+          <button id="view" onClick={toggleDetails}>
+            View
+          </button>
+        </div>
       ) : (
-        <>
+        <div className="blogDetails">
           <p>
             {blog.title} {blog.author}{" "}
-            <button onClick={toggleDetails}>Hide</button>
+            <button onClick={toggleDetails} id="hide">
+              Hide
+            </button>
           </p>
           <p>{blog.url}</p>
           <div>
             {`Likes: ${blogObject.likes}`}{" "}
-            <button onClick={handleLike}>like</button>
+            <button onClick={handleLike} id="like">
+              like
+            </button>
           </div>
           <p>{user.username}</p>
           <button onClick={() => removeBlog(blog)}>remove</button>
-        </>
+        </div>
       )}
     </div>
   );

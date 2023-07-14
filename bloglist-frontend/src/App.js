@@ -52,7 +52,7 @@ const App = () => {
     try {
       window.localStorage.removeItem("loggedUser");
       setUser(null);
-    } catch {
+    } catch (e) {
       console.log("Failed to logout");
     }
   };
