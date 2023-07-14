@@ -1,6 +1,5 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
-import userEvent from "@testing-library/user-event";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Blog from "./Blog";
 
@@ -11,7 +10,7 @@ const blog = {
   url: "op.gg",
 };
 const user = {
-  username: "magi",
+  username: "rose",
 };
 describe("blog list testing", () => {
   describe("testing toggle details", () => {
@@ -54,8 +53,4 @@ describe("blog list testing", () => {
       expect(mockLikeBlog).toHaveBeenCalledTimes(2);
     });
   });
-});
-
-describe("blog Form tests", () => {
-  test("calls event handler when passed with right props", () => {});
 });
