@@ -33,13 +33,16 @@ const App = () => {
     e.preventDefault();
     console.log("logging in with ", username);
     try {
+      console.log("im in try ");
       const user = await loginService.login({ username, password });
       setUser(user);
+      console.log("he considers it succ");
       window.localStorage.setItem("loggedUser", JSON.stringify(user));
       blogService.setToken(user.token);
       setUsername("");
       setPassword("");
-    } catch (e) {
+    } catch (err) {
+      console.log("hmm");
       setErr("Wrong username or password");
       setTimeout(() => {
         setErr(null);
@@ -104,7 +107,7 @@ const App = () => {
       <h2>blogs</h2>
       <Notification succMessage={succMessage} errMessage={errMessage} />
       {user === null ? (
-        <Togglable buttonLabel="login">
+        <Togglable buttonLabel="Log in">
           <Login
             username={username}
             setUsername={setUsername}
@@ -120,15 +123,17 @@ const App = () => {
           <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
             <BlogForm createBlog={handleBlogSubmit} />
           </Togglable>
-          {blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              user={user}
-              likeBlog={handleLikeBlog}
-              removeBlog={handleRemoveBlog}
-            />
-          ))}
+          <div className="blog-list">
+            {blogs.map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                user={user}
+                likeBlog={handleLikeBlog}
+                removeBlog={handleRemoveBlog}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

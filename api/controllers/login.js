@@ -5,12 +5,16 @@ const User = require("../models/usersSchema");
 
 loginRouter.post("/", async (req, res) => {
   const { username, password } = req.body;
+
   const user = await User.findOne({ username });
+
   const correctPass =
-    user === null ? false : bcrypt.compare(password, user.passwordHash);
+    user === null ? false : await bcrypt.compare(password, user.passwordHash);
+
   if (!user || !correctPass) {
-    res.status(401).json({ error: "invalid username or password" });
+    res.status(401);
   }
+  console.log("here");
   const userForToken = {
     username: user.username,
     id: user._id,
