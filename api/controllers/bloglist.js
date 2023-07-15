@@ -8,7 +8,7 @@ const User = require("../models/usersSchema");
 const jwt = require("jsonwebtoken");
 
 blogRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate("user");
   response.json(blogs);
 });
 
@@ -16,6 +16,7 @@ blogRouter.post("/", async (request, response) => {
   try {
     const body = request.body;
     if (!request.token) {
+      console.log("im here");
       response.status(401).json({ error: "token missing or invalid" });
     }
     const decodedToken = jwt.verify(request.token, process.env.SECRET);

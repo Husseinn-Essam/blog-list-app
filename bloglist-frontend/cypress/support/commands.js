@@ -11,13 +11,13 @@ Cypress.Commands.add("login", (username, password) => {
 });
 
 Cypress.Commands.add("createBlog", (blog) => {
-  const user = JSON.parse(localStorage.getItem("loggedBlogappUser"));
+  const user = JSON.parse(localStorage.getItem("loggedUser"));
   cy.request({
-    url: `${Cypress.env("BACKEND")}/api/blogs`,
+    url: `${Cypress.env("BACKEND")}/blogs`,
     method: "POST",
     body: { ...blog },
     headers: {
-      Authorization: `bearer ${user.token}`,
+      Authorization: `Bearer ${user.token}`,
     },
   });
   cy.visit("");

@@ -8,6 +8,7 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
+  const isBlogCreatedByUser = user && blog.user && user.id === blog.user.id;
   const [blogObject, setBlogObject] = useState(blog);
   const [details, setDetails] = useState(false);
   const toggleDetails = () => {
@@ -40,13 +41,15 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
           </p>
           <p>{blog.url}</p>
           <div>
-            {`Likes: ${blogObject.likes}`}{" "}
+            <div className="likes">{`Likes: ${blogObject.likes}`} </div>
             <button onClick={handleLike} id="like">
               like
             </button>
           </div>
-          <p>{user.username}</p>
-          <button onClick={() => removeBlog(blog)}>remove</button>
+          <p>{blog.user.username}</p>
+          {isBlogCreatedByUser && (
+            <button onClick={() => removeBlog(blog)}>remove</button>
+          )}
         </div>
       )}
     </div>

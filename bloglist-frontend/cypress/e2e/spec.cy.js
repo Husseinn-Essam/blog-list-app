@@ -32,7 +32,7 @@ describe("Blog app", function () {
       cy.get("html").should("not.contain", "invaliduser logged in");
     });
   });
-  describe("when logged in", () => {
+  describe("when logged in", function () {
     beforeEach(function () {
       cy.login("exampleuser", "hashedpassword");
     });
@@ -43,6 +43,35 @@ describe("Blog app", function () {
       cy.get("#url").type("test");
       cy.get("#create-btn").click();
       cy.get(".blog-list").contains("test");
+    });
+    describe("when blog created", function () {
+      this.beforeEach(function () {
+        const blog = {
+          title: "the programmer",
+          author: "john cena",
+          url: "not.real",
+        };
+        cy.createBlog(blog);
+      });
+      it.only("like button works", () => {
+        cy.get("#view").click();
+        cy.get(".likes").then(($likes) => {
+          const initialLikes = parseInt($likes.text().split(" ")[1]);
+
+          cy.get("#like")
+            .click()
+            .then(() => {
+              cy.wait(5000); //wait for the req
+              cy.get(".likes").then(($updatedLikes) => {
+                const updatedLikes = parseInt(
+                  $updatedLikes.text().split(" ")[1]
+                );
+
+                expect(updatedLikes).to.equal(initialLikes + 1);
+              });
+            });
+        });
+      });
     });
   });
 });
