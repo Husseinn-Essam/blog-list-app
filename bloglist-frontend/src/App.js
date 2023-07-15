@@ -33,16 +33,13 @@ const App = () => {
     e.preventDefault();
     console.log("logging in with ", username);
     try {
-      console.log("im in try ");
       const user = await loginService.login({ username, password });
       setUser(user);
-      console.log("he considers it succ");
       window.localStorage.setItem("loggedUser", JSON.stringify(user));
       blogService.setToken(user.token);
       setUsername("");
       setPassword("");
     } catch (err) {
-      console.log("hmm");
       setErr("Wrong username or password");
       setTimeout(() => {
         setErr(null);

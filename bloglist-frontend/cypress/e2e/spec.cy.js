@@ -32,7 +32,7 @@ describe("Blog app", function () {
     });
   });
   describe("when logged in", () => {
-    it("create a blog", () => {
+    beforeEach(function () {
       cy.contains("Log in")
         .click()
         .then(() => {
@@ -41,13 +41,13 @@ describe("Blog app", function () {
           cy.get("#Log-in").click();
           cy.contains("is logged in");
         });
-
-      ////
+    });
+    it("create a blog", () => {
       cy.contains("Create a blog").click();
       cy.get("#title").type("test");
       cy.get("#author").type("test");
       cy.get("#url").type("test");
-      cy.contains("Create").click();
+      cy.get("#create-btn").click();
       cy.get(".blog-list").contains("test");
     });
   });
