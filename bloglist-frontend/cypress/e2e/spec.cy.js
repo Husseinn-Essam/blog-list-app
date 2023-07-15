@@ -67,7 +67,7 @@ describe("Blog app", function () {
           cy.get("#like")
             .click()
             .then(() => {
-              cy.wait(5000); //wait for the req
+              cy.wait(5000); //Wait for the request
               cy.get(".likes").then(($updatedLikes) => {
                 const updatedLikes = parseInt(
                   $updatedLikes.text().split(" ")[1]
@@ -81,16 +81,30 @@ describe("Blog app", function () {
         cy.login("exampleuser2", "hashedpassword");
         cy.get("#remove-btn").should("not.exist");
       });
-      it.only("user who created the blog can remove it", () => {
+      it("user who created the blog can remove it", () => {
         cy.login("exampleuser", "hashedpassword");
         cy.get("#view").click();
-        cy.contains("john cena").should("be.visible");
+        cy.contains("john bena").should("be.visible");
 
         cy.get("#remove-btn").click();
         cy.window().then((win) => {
           cy.stub(win, "confirm").returns(true); // Simulate confirmation by returning true
         });
         cy.contains("john cena").should("not.exist");
+      });
+      it.only("most liked blogs are at the top", () => {
+        const blog = {
+          title: "the code report",
+          author: "john bena",
+          url: "not.real",
+          likes: 10,
+        };
+        cy.createBlog(blog);
+        cy.get(".blog-list > :first-child").should(
+          "contain",
+          "the code report"
+        );
+        cy.get(".blog-list > :eq(1)").should("contain", "the programmer");
       });
     });
   });
