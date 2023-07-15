@@ -6,7 +6,13 @@ describe("Blog app", function () {
       username: "exampleuser",
       password: "hashedpassword",
     };
+    const user2 = {
+      name: "exampleuser2",
+      username: "exampleuser2",
+      password: "hashedpassword",
+    };
     cy.request("POST", `${Cypress.env("BACKEND")}/users/`, user);
+    cy.request("POST", `${Cypress.env("BACKEND")}/users/`, user2);
     cy.visit("");
   });
   describe("Login", function () {
@@ -53,7 +59,7 @@ describe("Blog app", function () {
         };
         cy.createBlog(blog);
       });
-      it.only("like button works", () => {
+      it("like button works", () => {
         cy.get("#view").click();
         cy.get(".likes").then(($likes) => {
           const initialLikes = parseInt($likes.text().split(" ")[1]);
@@ -66,11 +72,25 @@ describe("Blog app", function () {
                 const updatedLikes = parseInt(
                   $updatedLikes.text().split(" ")[1]
                 );
-
                 expect(updatedLikes).to.equal(initialLikes + 1);
               });
             });
         });
+      });
+      it("remove button appear only to the creator", () => {
+        cy.login("exampleuser2", "hashedpassword");
+        cy.get("#remove-btn").should("not.exist");
+      });
+      it.only("user who created the blog can remove it", () => {
+        cy.login("exampleuser", "hashedpassword");
+        cy.get("#view").click();
+        cy.contains("john cena").should("be.visible");
+
+        cy.get("#remove-btn").click();
+        cy.window().then((win) => {
+          cy.stub(win, "confirm").returns(true); // Simulate confirmation by returning true
+        });
+        cy.contains("john cena").should("not.exist");
       });
     });
   });

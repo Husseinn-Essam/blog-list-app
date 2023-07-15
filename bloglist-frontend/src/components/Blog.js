@@ -48,7 +48,9 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
           </div>
           <p>{blog.user.username}</p>
           {isBlogCreatedByUser && (
-            <button onClick={() => removeBlog(blog)}>remove</button>
+            <button onClick={() => removeBlog(blog)} id="remove-btn">
+              remove
+            </button>
           )}
         </div>
       )}
