@@ -17,7 +17,7 @@ module.exports = {
   plugins: ["react", "jest", "cypress"],
   rules: {
     "no-unused-vars": "warn",
-    indent: ["error", 2],
+    indent: ["off", 2],
     "linebreak-style": ["error", "unix"],
     eqeqeq: "error",
     "no-trailing-spaces": "error",

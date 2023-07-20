@@ -1,4 +1,8 @@
-const Notification = ({ succMessage, errMessage }) => {
+import { useContext } from "react";
+import NotifContext from "./NotifContext";
+
+const Notification = () => {
+  const [message, dispatchMessage] = useContext(NotifContext);
   const styles = {
     succNotif: {
       color: "green",
@@ -19,12 +23,13 @@ const Notification = ({ succMessage, errMessage }) => {
       marginBottom: "10px",
     },
   };
-  if (succMessage) {
-    return <div style={styles.succNotif}>{succMessage}</div>;
-  } else if (errMessage) {
-    return <div style={styles.errNotif}>{errMessage}</div>;
+  if (message === "") return null;
+  if (message) {
+    const notificationStyle = message.startsWith("Wrong")
+      ? styles.errNotif
+      : styles.succNotif;
+    return <div style={notificationStyle}>{message}</div>;
   }
-  return null;
 };
 
 export default Notification;

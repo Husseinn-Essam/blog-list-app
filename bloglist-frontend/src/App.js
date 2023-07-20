@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import Login from "./components/Login";
@@ -6,13 +6,15 @@ import loginService from "./services/login";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import NotifContext from "./components/NotifContext";
+
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [succMessage, setSucc] = useState(null);
-  const [errMessage, setErr] = useState(null);
+  const [message, dispatchMessage] = useContext(NotifContext);
+
   const blogFormRef = useRef();
   useEffect(() => {
     blogService
@@ -40,9 +42,10 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (err) {
-      setErr("Wrong username or password");
+      // Login error notif
+      dispatchMessage({ type: "ERROR" });
       setTimeout(() => {
-        setErr(null);
+        dispatchMessage({ type: "MUTE" });
       }, 5000);
     }
   };
@@ -61,11 +64,11 @@ const App = () => {
     try {
       blogFormRef.current.toggleVisibility();
       const newBlog = await blogService.create(blogObj);
-      setSucc(`A new blog "${blogObj.title}" by ${blogObj.author}`);
+      // SUCCESS NOTIF
+      dispatchMessage({ type: "BLOG_CREATION_SUCCESS", payload: blogObj });
       setTimeout(() => {
-        setSucc(null);
+        dispatchMessage({ type: "MUTE" });
       }, 5000);
-
       setBlogs(blogs.concat(newBlog));
     } catch (e) {
       console.log(e);
@@ -102,7 +105,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification succMessage={succMessage} errMessage={errMessage} />
+      <Notification />
       {user === null ? (
         <Togglable buttonLabel="Log in">
           <Login
