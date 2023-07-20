@@ -7,8 +7,15 @@ const setToken = (newToken) => {
 };
 
 const getAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => response.data);
+  console.log("yeses");
+  try {
+    console.log("i got here");
+    const request = axios.get(baseUrl);
+    return request.then((response) => response.data);
+  } catch (e) {
+    console.log("uh");
+    console.log(e);
+  }
 };
 
 const create = async (newObj) => {

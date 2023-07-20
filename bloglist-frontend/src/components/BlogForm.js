@@ -1,16 +1,37 @@
-import { useState } from "react";
-const BlogForm = ({ createBlog }) => {
+import { useState, useContext } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import NotifContext from "./NotifContext";
+import blogService from "../services/blogs";
+const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const [message, dispatchMessage] = useContext(NotifContext);
+
+  const queryClient = useQueryClient();
+  const addBlogMutation = useMutation({
+    mutationFn: blogService.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["blogs"]);
+    },
+  });
+
+  const notifyBlogSuccess = (blogObj) => {
+    dispatchMessage({ type: "BLOG_CREATION_SUCCESS", payload: blogObj });
+    setTimeout(() => {
+      dispatchMessage({ type: "MUTE" });
+    }, 5000);
+  };
 
   const addBlog = (e) => {
     e.preventDefault();
-    createBlog({
+    const createdBlog = {
       title,
       author,
       url,
-    });
+    };
+    addBlogMutation.mutate(createdBlog);
+    notifyBlogSuccess(createdBlog);
     setTitle("");
     setAuthor("");
     setUrl("");

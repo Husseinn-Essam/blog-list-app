@@ -7,29 +7,38 @@ import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import NotifContext from "./components/NotifContext";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [blogs, setBlogs] = useState([]);
   const [message, dispatchMessage] = useContext(NotifContext);
-
+  // React Query
+  const queryClient = useQueryClient();
   const blogFormRef = useRef();
-  useEffect(() => {
-    blogService
-      .getAll()
-      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)));
-  }, []);
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
+  // Get Blogs from DB
+  const currentBlogs = useQuery(["blogs"], blogService.getAll, {
+    refetchOnWindowFocus: false,
+  });
+  if (currentBlogs.isLoading) {
+    return <div>loading data...</div>;
+  }
+
+  if (currentBlogs.isError) {
+    return <div>Anecdote service not available due to problems in server</div>;
+  }
+
+  // useEffect(() => {
+  //   const loggedUserJSON = window.localStorage.getItem("loggedUser");
+  //   if (loggedUserJSON) {
+  //     const user = JSON.parse(loggedUserJSON);
+  //     setUser(user);
+  //     blogService.setToken(user.token);
+  //   }
+  // }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -60,22 +69,6 @@ const App = () => {
     }
   };
 
-  const handleBlogSubmit = async (blogObj) => {
-    try {
-      blogFormRef.current.toggleVisibility();
-      const newBlog = await blogService.create(blogObj);
-      // SUCCESS NOTIF
-      dispatchMessage({ type: "BLOG_CREATION_SUCCESS", payload: blogObj });
-      setTimeout(() => {
-        dispatchMessage({ type: "MUTE" });
-      }, 5000);
-      setBlogs(blogs.concat(newBlog));
-    } catch (e) {
-      console.log(e);
-      console.log("failed to update blog");
-    }
-  };
-
   const handleLikeBlog = async (blogToUpdate) => {
     const newblog = {
       ...blogToUpdate,
@@ -102,6 +95,7 @@ const App = () => {
       console.log(error);
     }
   };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -121,10 +115,10 @@ const App = () => {
           <p>{user.username} is logged in</p>
           <button onClick={handleLogout}>logout</button>
           <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
-            <BlogForm createBlog={handleBlogSubmit} />
+            <BlogForm />
           </Togglable>
           <div className="blog-list">
-            {blogs.map((blog) => (
+            {currentBlogs.data.map((blog) => (
               <Blog
                 key={blog.id}
                 blog={blog}
