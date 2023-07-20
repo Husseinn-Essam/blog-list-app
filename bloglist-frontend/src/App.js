@@ -69,33 +69,6 @@ const App = () => {
     }
   };
 
-  const handleLikeBlog = async (blogToUpdate) => {
-    const newblog = {
-      ...blogToUpdate,
-      likes: blogToUpdate.likes + 1,
-    };
-
-    // const updatedBlog = await blogService.update(blogToUpdate.id, newblog);
-    // const updatedBlogs = await blogService.getAll();
-    // setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
-    // return updatedBlog;
-  };
-
-  const handleRemoveBlog = async (blog) => {
-    try {
-      const result = window.confirm(
-        `Are you sure you want to remove ${blog.title}`
-      );
-      if (result) {
-        await blogService.remove(blog.id);
-        const updatedBlogs = await blogService.getAll();
-        setBlogs(updatedBlogs);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div>
       <h2>blogs</h2>
@@ -119,13 +92,7 @@ const App = () => {
           </Togglable>
           <div className="blog-list">
             {currentBlogs.data.map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={user}
-                // likeBlog={}
-                // removeBlog={console.log("gamers")}
-              />
+              <Blog key={blog.id} blog={blog} user={user} />
             ))}
           </div>
         </div>

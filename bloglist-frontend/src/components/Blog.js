@@ -17,11 +17,14 @@ const Blog = ({ blog, user, removeBlog }) => {
       queryClient.invalidateQueries(["blogs"]);
     },
   });
-  const isBlogCreatedByUser = user && blog.user && user.id === blog.user.id;
-  const [details, setDetails] = useState(false);
-  const toggleDetails = () => {
-    details ? setDetails(false) : setDetails(true);
-  };
+
+  const deleteBlogMutation = useMutation({
+    mutationFn: blogService.remove,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["blogs"]);
+    },
+  });
+
   const handleLike = () => {
     try {
       const newblog = {
@@ -32,6 +35,19 @@ const Blog = ({ blog, user, removeBlog }) => {
     } catch (error) {
       console.log("Failed to update likes", error);
     }
+  };
+
+  const handleRemoval = () => {
+    const result = window.confirm(
+      `Are you sure you want to remove ${blog.title}`
+    );
+    if (result) deleteBlogMutation.mutate(blog.id);
+  };
+
+  const isBlogCreatedByUser = user && blog.user && user.id === blog.user.id;
+  const [details, setDetails] = useState(false);
+  const toggleDetails = () => {
+    details ? setDetails(false) : setDetails(true);
   };
   return (
     <div style={blogStyle}>
@@ -59,7 +75,7 @@ const Blog = ({ blog, user, removeBlog }) => {
           </div>
           <p>{blog.user.username}</p>
           {isBlogCreatedByUser && (
-            <button onClick={() => removeBlog(blog)} id="remove-btn">
+            <button onClick={handleRemoval} id="remove-btn">
               remove
             </button>
           )}
