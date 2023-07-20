@@ -1,6 +1,7 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-
-const Blog = ({ blog, user, likeBlog, removeBlog }) => {
+import blogService from "../services/blogs";
+const Blog = ({ blog, user, removeBlog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -8,16 +9,26 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
+  const queryClient = useQueryClient();
+
+  const likeBlogMutation = useMutation({
+    mutationFn: blogService.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["blogs"]);
+    },
+  });
   const isBlogCreatedByUser = user && blog.user && user.id === blog.user.id;
-  const [blogObject, setBlogObject] = useState(blog);
   const [details, setDetails] = useState(false);
   const toggleDetails = () => {
     details ? setDetails(false) : setDetails(true);
   };
-  const handleLike = async () => {
+  const handleLike = () => {
     try {
-      const updatedBlog = await likeBlog(blogObject);
-      setBlogObject(updatedBlog);
+      const newblog = {
+        ...blog,
+        likes: blog.likes + 1,
+      };
+      likeBlogMutation.mutate(newblog);
     } catch (error) {
       console.log("Failed to update likes", error);
     }
@@ -41,7 +52,7 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
           </p>
           <p>{blog.url}</p>
           <div>
-            <div className="likes">{`Likes: ${blogObject.likes}`} </div>
+            <div className="likes">{`Likes: ${blog.likes}`} </div>
             <button onClick={handleLike} id="like">
               like
             </button>

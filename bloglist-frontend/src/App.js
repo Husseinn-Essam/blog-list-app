@@ -16,7 +16,6 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [message, dispatchMessage] = useContext(NotifContext);
   // React Query
-  const queryClient = useQueryClient();
   const blogFormRef = useRef();
 
   // Get Blogs from DB
@@ -31,6 +30,7 @@ const App = () => {
     return <div>Anecdote service not available due to problems in server</div>;
   }
 
+  // causes error will fix later , get last logged in user
   // useEffect(() => {
   //   const loggedUserJSON = window.localStorage.getItem("loggedUser");
   //   if (loggedUserJSON) {
@@ -75,10 +75,10 @@ const App = () => {
       likes: blogToUpdate.likes + 1,
     };
 
-    const updatedBlog = await blogService.update(blogToUpdate.id, newblog);
-    const updatedBlogs = await blogService.getAll();
-    setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
-    return updatedBlog;
+    // const updatedBlog = await blogService.update(blogToUpdate.id, newblog);
+    // const updatedBlogs = await blogService.getAll();
+    // setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
+    // return updatedBlog;
   };
 
   const handleRemoveBlog = async (blog) => {
@@ -123,8 +123,8 @@ const App = () => {
                 key={blog.id}
                 blog={blog}
                 user={user}
-                likeBlog={handleLikeBlog}
-                removeBlog={handleRemoveBlog}
+                // likeBlog={}
+                // removeBlog={console.log("gamers")}
               />
             ))}
           </div>

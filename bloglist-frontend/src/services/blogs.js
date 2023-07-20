@@ -7,13 +7,10 @@ const setToken = (newToken) => {
 };
 
 const getAll = () => {
-  console.log("yeses");
   try {
-    console.log("i got here");
     const request = axios.get(baseUrl);
     return request.then((response) => response.data);
   } catch (e) {
-    console.log("uh");
     console.log(e);
   }
 };
@@ -26,8 +23,8 @@ const create = async (newObj) => {
   return response.data;
 };
 
-const update = async (id, newObj) => {
-  const request = await axios.put(`${baseUrl}/${id}`, newObj);
+const update = async (newObj) => {
+  const request = await axios.put(`${baseUrl}/${newObj.id}`, newObj);
   const data = await request.data;
   return data;
 };
