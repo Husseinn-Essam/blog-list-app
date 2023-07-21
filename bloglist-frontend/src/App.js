@@ -21,11 +21,9 @@ const App = () => {
       blogService.setToken(lastLoggedin.token);
     }
   }, []);
-
-  const [message, dispatchMessage] = useContext(NotifContext);
+  const blogFormRef = useRef();
 
   // React Query
-  const blogFormRef = useRef();
 
   // Get Blogs from DB
   const currentBlogs = useQuery(["blogs"], blogService.getAll, {
@@ -58,7 +56,12 @@ const App = () => {
         </Togglable>
       ) : (
         <div>
-          {console.log()}
+          {console.log(
+            user.client.token,
+            "and",
+            JSON.parse(window.localStorage.getItem("loggedUser")).token
+          )}
+
           <p>{user.client.username} is logged in</p>
           <button onClick={handleLogout}>logout</button>
           <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
@@ -66,7 +69,7 @@ const App = () => {
           </Togglable>
           <div className="blog-list">
             {currentBlogs.data.map((blog) => (
-              <Blog key={blog.id} blog={blog} user={user} />
+              <Blog key={blog.id} blog={blog} user={user.client} />
             ))}
           </div>
         </div>

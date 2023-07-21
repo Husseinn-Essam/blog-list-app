@@ -43,7 +43,7 @@ const Blog = ({ blog, user, removeBlog }) => {
     );
     if (result) deleteBlogMutation.mutate(blog.id);
   };
-
+  console.log(user);
   const isBlogCreatedByUser = user && blog.user && user.id === blog.user.id;
   const [details, setDetails] = useState(false);
   const toggleDetails = () => {

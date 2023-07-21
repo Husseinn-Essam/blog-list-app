@@ -19,7 +19,7 @@ const Login = () => {
       //logs that user is not yet logged in
       window.localStorage.setItem("loggedUser", JSON.stringify(client));
 
-      blogService.setToken(user.token);
+      blogService.setToken(client.token);
       setUsername("");
       setPassword("");
     } catch (err) {
