@@ -56,21 +56,17 @@ const App = () => {
         </Togglable>
       ) : (
         <div>
-          {console.log(
-            user.client.token,
-            "and",
-            JSON.parse(window.localStorage.getItem("loggedUser")).token
-          )}
-
           <p>{user.client.username} is logged in</p>
           <button onClick={handleLogout}>logout</button>
           <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
             <BlogForm />
           </Togglable>
           <div className="blog-list">
-            {currentBlogs.data.map((blog) => (
-              <Blog key={blog.id} blog={blog} user={user.client} />
-            ))}
+            {currentBlogs.data
+              .sort((a, b) => b.likes - a.likes)
+              .map((blog) => (
+                <Blog key={blog.id} blog={blog} user={user.client} />
+              ))}
           </div>
         </div>
       )}

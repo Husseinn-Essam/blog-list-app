@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import blogService from "../services/blogs";
-const Blog = ({ blog, user, removeBlog }) => {
+const Blog = ({ blog, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -43,7 +43,6 @@ const Blog = ({ blog, user, removeBlog }) => {
     );
     if (result) deleteBlogMutation.mutate(blog.id);
   };
-  console.log(user);
   const isBlogCreatedByUser = user && blog.user && user.id === blog.user.id;
   const [details, setDetails] = useState(false);
   const toggleDetails = () => {
