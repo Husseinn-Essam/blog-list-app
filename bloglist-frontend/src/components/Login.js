@@ -1,11 +1,36 @@
-import PropTypes from "prop-types";
-const Login = ({
-  username,
-  setUsername,
-  password,
-  setPassword,
-  handleLogin,
-}) => {
+import { useState, useContext } from "react";
+import loginService from "../services/login";
+import blogService from "../services/blogs";
+import UserContext from "./UserContext";
+import NotifContext from "./NotifContext";
+const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, dispatchMessage] = useContext(NotifContext);
+  const [user, dispatchUserAction] = useContext(UserContext);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log("logging in with ", username);
+    try {
+      const client = await loginService.login({ username, password });
+      dispatchUserAction({ type: "LOGIN", payload: client });
+
+      console.log(user);
+      //logs that user is not yet logged in
+      window.localStorage.setItem("loggedUser", JSON.stringify(client));
+
+      blogService.setToken(user.token);
+      setUsername("");
+      setPassword("");
+    } catch (err) {
+      // Login error notif
+      dispatchMessage({ type: "ERROR" });
+      setTimeout(() => {
+        dispatchMessage({ type: "MUTE" });
+      }, 5000);
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleLogin}>
@@ -36,8 +61,5 @@ const Login = ({
     </>
   );
 };
-Login.propTypes = {
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-};
+
 export default Login;

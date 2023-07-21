@@ -7,14 +7,23 @@ import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import NotifContext from "./components/NotifContext";
+import UserContext from "./components/UserContext";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const App = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
-  const [blogs, setBlogs] = useState([]);
+  const [user, dispatchUserAction] = useContext(UserContext);
+  // Gets the last logged in user from local
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedUser");
+    if (loggedUserJSON) {
+      const lastLoggedin = JSON.parse(loggedUserJSON);
+      dispatchUserAction({ type: "LOGIN", payload: lastLoggedin });
+      blogService.setToken(lastLoggedin.token);
+    }
+  }, []);
+
   const [message, dispatchMessage] = useContext(NotifContext);
+
   // React Query
   const blogFormRef = useRef();
 
@@ -30,62 +39,27 @@ const App = () => {
     return <div>Anecdote service not available due to problems in server</div>;
   }
 
-  // causes error will fix later , get last logged in user
-  // useEffect(() => {
-  //   const loggedUserJSON = window.localStorage.getItem("loggedUser");
-  //   if (loggedUserJSON) {
-  //     const user = JSON.parse(loggedUserJSON);
-  //     setUser(user);
-  //     blogService.setToken(user.token);
-  //   }
-  // }, []);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log("logging in with ", username);
-    try {
-      const user = await loginService.login({ username, password });
-      setUser(user);
-      window.localStorage.setItem("loggedUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUsername("");
-      setPassword("");
-    } catch (err) {
-      // Login error notif
-      dispatchMessage({ type: "ERROR" });
-      setTimeout(() => {
-        dispatchMessage({ type: "MUTE" });
-      }, 5000);
-    }
-  };
-
   const handleLogout = async (e) => {
     console.log("logged out");
     try {
       window.localStorage.removeItem("loggedUser");
-      setUser(null);
+      dispatchUserAction({ type: "LOGOUT" });
     } catch (e) {
       console.log("Failed to logout");
     }
   };
-
   return (
     <div>
       <h2>blogs</h2>
       <Notification />
-      {user === null ? (
+      {user.isLoggedin === false ? (
         <Togglable buttonLabel="Log in">
-          <Login
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-            handleLogin={handleLogin}
-          />
+          <Login />
         </Togglable>
       ) : (
         <div>
-          <p>{user.username} is logged in</p>
+          {console.log()}
+          <p>{user.client.username} is logged in</p>
           <button onClick={handleLogout}>logout</button>
           <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
             <BlogForm />
