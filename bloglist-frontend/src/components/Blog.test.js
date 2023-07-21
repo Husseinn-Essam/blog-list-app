@@ -3,6 +3,8 @@ import "@testing-library/jest-dom/extend-expect";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Blog from "./Blog";
 
+// delete those
+
 const blog = {
   title: "gg",
   author: "parrot",

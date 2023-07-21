@@ -3,7 +3,7 @@ import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 import { render, screen, fireEvent } from "@testing-library/react";
 import BlogForm from "./BlogForm";
-
+// delete those
 describe("blog Form tests", () => {
   test("calls event handler when passed with right props", () => {
     const mockCreateBlog = jest.fn();
