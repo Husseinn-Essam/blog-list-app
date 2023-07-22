@@ -1,5 +1,4 @@
 import { useEffect, useRef, useContext } from "react";
-import Blog from "./components/Blog";
 import Menu from "./components/Menu";
 import UserDetails from "./components/UserDetails";
 import blogService from "./services/blogs";
@@ -8,23 +7,16 @@ import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import UserContext from "./components/UserContext";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useParams,
-  useMatch,
-  useNavigate,
-} from "react-router-dom";
+import { Routes, Route, useMatch, useNavigate } from "react-router-dom";
 import Users from "./components/Users";
 import Bloglist from "./components/Bloglist";
-import userService from "./services/userService";
+import { useInitializerContext } from "./components/initializerContext";
+import BlogDetails from "./components/BlogDetails";
 const App = () => {
   const [user, dispatchUserAction] = useContext(UserContext);
 
   const userMatch = useMatch("/users/:id");
+  const blogMatch = useMatch("/blogs/:id");
 
   const blogFormRef = useRef();
   // Gets the last logged in user from local
@@ -37,10 +29,9 @@ const App = () => {
     }
   }, []);
 
-  // React Query :Get Blogs from DB
-  const users = useQuery(["users"], userService.getUsers, {
-    refetchOnWindowFocus: false,
-  });
+  // Custom hook that access react queries in initializerContext.js
+  // Queries to get data from DB to initialize the App
+  const { users, currentBlogs } = useInitializerContext();
   if (users.isLoading) {
     return <div>loading data...</div>;
   }
@@ -48,9 +39,13 @@ const App = () => {
   if (users.isError) {
     return <div>Service not available due to problems in server</div>;
   }
-  // get matched user
+  // Get matched user
   const matchedUser = userMatch
     ? users.data.find((user) => user.id === userMatch.params.id)
+    : null;
+  // Get matched blog
+  const matchedBlog = blogMatch
+    ? currentBlogs.data.find((blog) => blog.id === blogMatch.params.id)
     : null;
 
   //Log out logic
@@ -77,11 +72,18 @@ const App = () => {
           <p>{user.client.username} is logged in</p>
           <Menu />
           <Routes>
-            <Route path="/blog-list" element={<Bloglist />} />
+            <Route
+              path="/blog-list"
+              element={<Bloglist currentBlogs={currentBlogs} />}
+            />
             <Route path="/users" element={<Users users={users} />}></Route>
             <Route
               path="/users/:id"
               element={<UserDetails matchedUser={matchedUser} />}
+            />
+            <Route
+              path="/blogs/:id"
+              element={<BlogDetails matchedBlog={matchedBlog} user={user} />}
             />
           </Routes>
           <button onClick={handleLogout}>logout</button>

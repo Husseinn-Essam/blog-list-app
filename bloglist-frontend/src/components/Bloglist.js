@@ -3,24 +3,19 @@ import blogService from "../services/blogs";
 import Blog from "./Blog";
 import { useContext } from "react";
 import UserContext from "./UserContext";
-const Bloglist = () => {
+import { Link } from "react-router-dom";
+const Bloglist = ({ currentBlogs }) => {
   const [user, dispatchUserAction] = useContext(UserContext);
-  const currentBlogs = useQuery(["blogs"], blogService.getAll, {
-    refetchOnWindowFocus: false,
-  });
-  if (currentBlogs.isLoading) {
-    return <div>loading data...</div>;
-  }
 
-  if (currentBlogs.isError) {
-    return <div>Service not available due to problems in server</div>;
-  }
   return (
     <div className="blog-list">
       {currentBlogs.data
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user.client} />
+          // <Blog key={blog.id} blog={blog} user={user.client} /> Old Blog component
+          <li key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </li>
         ))}
     </div>
   );
