@@ -8,7 +8,15 @@ const User = require("../models/usersSchema");
 const jwt = require("jsonwebtoken");
 
 blogRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user");
+  const blogs = await Blog.find({})
+    .populate("user")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "user",
+        select: "username",
+      },
+    });
   response.json(blogs);
 });
 

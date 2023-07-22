@@ -1,9 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import blogService from "../services/blogs";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const BlogDetails = ({ matchedBlog, user }) => {
+  const [commentText, setCommentText] = useState("");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
   const likeBlogMutation = useMutation({
     mutationFn: blogService.update,
     onSuccess: () => {
@@ -16,6 +19,15 @@ const BlogDetails = ({ matchedBlog, user }) => {
       queryClient.invalidateQueries(["blogs"]);
     },
   });
+  const commentBlogMutation = useMutation({
+    mutationFn: blogService.comment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["blogs"]);
+    },
+  });
+  const handleSubmitComment = (e) => {
+    e.preventDefault();
+  };
   const handleLike = () => {
     try {
       const newblog = {
@@ -53,6 +65,24 @@ const BlogDetails = ({ matchedBlog, user }) => {
           remove
         </button>
       )}
+      <h3>Make a comment</h3>
+      <form onSubmit={handleSubmitComment}>
+        <input
+          type="text"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          placeholder="Add a comment..."
+        />
+      </form>
+      <h2>Comments</h2>
+      <ul>
+        {matchedBlog.comments.map((comment) => (
+          <li key={comment._id}>
+            {console.log(comment)}
+            <strong>{comment.user.username}</strong>: {comment.text}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
