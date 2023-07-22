@@ -1,18 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import userService from "../services/userService";
-const Users = () => {
-  const users = useQuery(["users"], userService.getUsers, {
-    refetchOnWindowFocus: false,
-  });
-  if (users.isLoading) {
-    return <div>loading data...</div>;
-  }
-
-  if (users.isError) {
-    return <div>Service not available due to problems in server</div>;
-  }
-
+const Users = ({ users }) => {
   return (
     <div>
       <h2>Users</h2>

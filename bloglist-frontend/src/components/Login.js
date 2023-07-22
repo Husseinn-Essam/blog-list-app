@@ -14,10 +14,7 @@ const Login = () => {
     try {
       const client = await loginService.login({ username, password });
       dispatchUserAction({ type: "LOGIN", payload: client });
-
-      //logs that user is not yet logged in
       window.localStorage.setItem("loggedUser", JSON.stringify(client));
-
       blogService.setToken(client.token);
       setUsername("");
       setPassword("");

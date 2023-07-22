@@ -23,11 +23,11 @@ import Bloglist from "./components/Bloglist";
 import userService from "./services/userService";
 const App = () => {
   const [user, dispatchUserAction] = useContext(UserContext);
-  // Gets the last logged in user from local
+
   const userMatch = useMatch("/users/:id");
 
   const blogFormRef = useRef();
-
+  // Gets the last logged in user from local
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedUser");
     if (loggedUserJSON) {
@@ -36,38 +36,23 @@ const App = () => {
       blogService.setToken(lastLoggedin.token);
     }
   }, []);
+
+  // React Query :Get Blogs from DB
   const users = useQuery(["users"], userService.getUsers, {
     refetchOnWindowFocus: false,
   });
   if (users.isLoading) {
     return <div>loading data...</div>;
   }
-  console.log(users.data);
-  // console.log(userMatch.params.id);
+
+  if (users.isError) {
+    return <div>Service not available due to problems in server</div>;
+  }
+  // get matched user
   const matchedUser = userMatch
     ? users.data.find((user) => user.id === userMatch.params.id)
     : null;
-  console.log(matchedUser);
 
-  // if (users.isError) {
-  //   return <div>Service not available due to problems in server</div>;
-  // }
-
-  // React Query :Get Blogs from DB
-  // const currentBlogs = useQuery(["blogs"], blogService.getAll, {
-  //   refetchOnWindowFocus: false,
-  // });
-  // if (currentBlogs.isLoading) {
-  //   return <div>loading data...</div>;
-  // }
-
-  // if (currentBlogs.isError) {
-  //   return <div>Service not available due to problems in server</div>;
-  // }
-
-  // const queryClient = useQueryClient();
-  // const usersQuery = queryClient.getQueryData(["users"]);
-  // console.log(usersQuery);
   //Log out logic
   const handleLogout = async (e) => {
     console.log("logged out");
@@ -93,7 +78,7 @@ const App = () => {
           <Menu />
           <Routes>
             <Route path="/blog-list" element={<Bloglist />} />
-            <Route path="/users" element={<Users />}></Route>
+            <Route path="/users" element={<Users users={users} />}></Route>
             <Route
               path="/users/:id"
               element={<UserDetails matchedUser={matchedUser} />}

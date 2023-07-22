@@ -1,5 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useLocation, useParams } from "react-router-dom";
 const UserDetails = ({ matchedUser }) => {
   return (
     <div>
