@@ -25,17 +25,18 @@ mongoose
     error("Error connecting to DB");
   });
 
-app.use(express.json());
-app.use(cors());
-app.use(express.static("build"));
-app.use(errorHandler);
-app.use(tokenExtractor);
-app.use("/api/blogs", userExtractor);
-app.use("/api/blogs", blogRouter);
-app.use("/api/users", userRouter);
-app.use("/api/login", loginRouter);
 if (process.env.NODE_ENV === "test") {
   const testingRouter = require("./controllers/testing");
   app.use("/api/testing", testingRouter);
 }
+
+app.use(express.json());
+app.use(cors());
+app.use(express.static("build"));
+app.use(tokenExtractor);
+app.use("/api/blogs", userExtractor);
+app.use(errorHandler);
+app.use("/api/blogs", blogRouter);
+app.use("/api/users", userRouter);
+app.use("/api/login", loginRouter);
 module.exports = app;

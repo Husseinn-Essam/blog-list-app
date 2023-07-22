@@ -16,7 +16,6 @@ blogRouter.post("/", async (request, response) => {
   try {
     const body = request.body;
     if (!request.token) {
-      console.log("im here");
       response.status(401).json({ error: "token missing or invalid" });
     }
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
@@ -107,4 +106,35 @@ blogRouter.put("/:id", async (req, res) => {
   res.json(updateBlog);
 });
 
+blogRouter.post("/:id/comments", async (request, response) => {
+  try {
+    console.log("im in the route");
+
+    const { id } = request.params;
+    console.log(id);
+    const { commentText } = request.body;
+
+    if (!commentText) {
+      return response.status(400).json({ error: "Comment is required" });
+    }
+
+    // Get the user making the comment from the request object (assuming you've set the user in an earlier middleware)
+    const user = request.user;
+    console.log(user._id);
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      id,
+      { $push: { comments: { text: commentText, user: user._id } } },
+      { new: true }
+    ).populate("comments.user", "username"); // Populate the user field in the comment with the user's username
+    if (!updatedBlog) {
+      console.log("not defiend");
+      return response.status(404).json({ error: "Blog not found" });
+    }
+    console.log("completed");
+
+    response.status(200).json(updatedBlog);
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = blogRouter;

@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
 
+const commentSchema = new mongoose.Schema({
+  text: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+});
+
 const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
   author: {
@@ -8,6 +16,7 @@ const blogSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   url: { type: String, required: true },
   likes: { type: Number, default: 0 },
+  comments: [commentSchema],
 });
 blogSchema.set("toJSON", {
   transform: (document, obj) => {

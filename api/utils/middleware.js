@@ -16,6 +16,7 @@ const errorHandler = (error, request, response, next) => {
 
   next(error);
 };
+
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get("authorization");
 
