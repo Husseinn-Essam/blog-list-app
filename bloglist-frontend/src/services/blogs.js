@@ -37,10 +37,17 @@ const remove = async (id) => {
 };
 
 const comment = async (inputObj) => {
-  const response = await axios.post(`/api/blogs/${inputObj.blogId}/comments`, {
-    commentText: inputObj.commentText,
-    user: inputObj.user,
-  });
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.post(
+    `${baseUrl}/${inputObj.blogId}/comments`,
+    {
+      commentText: inputObj.commentText,
+      user: inputObj.userId,
+    },
+    config
+  );
   const data = await response.data;
   return data;
 };

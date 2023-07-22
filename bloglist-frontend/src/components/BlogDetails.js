@@ -27,6 +27,11 @@ const BlogDetails = ({ matchedBlog, user }) => {
   });
   const handleSubmitComment = (e) => {
     e.preventDefault();
+    commentBlogMutation.mutate({
+      blogId: matchedBlog.id,
+      commentText,
+      userId: matchedBlog.user.id,
+    });
   };
   const handleLike = () => {
     try {
@@ -46,8 +51,12 @@ const BlogDetails = ({ matchedBlog, user }) => {
     navigate("/blog-list");
     if (result) deleteBlogMutation.mutate(matchedBlog.id);
   };
+  // Check if user created this blog to view the remove btn
   const isBlogCreatedByUser =
     user && matchedBlog.user && user.client.id === matchedBlog.user.id;
+
+  // In case of undefined match
+  if (!matchedBlog) return null;
 
   return (
     <div>
@@ -73,12 +82,12 @@ const BlogDetails = ({ matchedBlog, user }) => {
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="Add a comment..."
         />
+        <button type="submit">comment</button>
       </form>
       <h2>Comments</h2>
       <ul>
         {matchedBlog.comments.map((comment) => (
           <li key={comment._id}>
-            {console.log(comment)}
             <strong>{comment.user.username}</strong>: {comment.text}
           </li>
         ))}
