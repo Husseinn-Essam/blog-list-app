@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import blogService from "../services/blogs";
+import { useNavigate } from "react-router-dom";
 const BlogDetails = ({ matchedBlog, user }) => {
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const likeBlogMutation = useMutation({
     mutationFn: blogService.update,
     onSuccess: () => {
@@ -30,10 +31,11 @@ const BlogDetails = ({ matchedBlog, user }) => {
     const result = window.confirm(
       `Are you sure you want to remove ${matchedBlog.title}`
     );
+    navigate("/blog-list");
     if (result) deleteBlogMutation.mutate(matchedBlog.id);
   };
   const isBlogCreatedByUser =
-    user && matchedBlog.user && user.id === matchedBlog.user.id;
+    user && matchedBlog.user && user.client.id === matchedBlog.user.id;
 
   return (
     <div>
