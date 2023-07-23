@@ -37,12 +37,12 @@ blogRouter.post("/", async (request, response) => {
       title: request.body.title,
       author: request.body.author,
       user: user._id,
-      url: request.body.url,
+      content: request.body.content,
       likes: request.body.likes,
     });
-    const { title, url } = request.body;
+    const { title, content } = request.body;
 
-    if (!title || !url) {
+    if (!title || !content) {
       return response.status(400).json({ error: "Title and URL are required" });
     }
     const result = await newBlog.save();
@@ -105,7 +105,7 @@ blogRouter.put("/:id", async (req, res) => {
   const newBlog = {
     title: req.body.title,
     author: req.body.author,
-    url: req.body.url,
+    content: req.body.content,
     likes: req.body.likes,
   };
   let updateBlog = await Blog.findByIdAndUpdate(req.params.id, newBlog, {
@@ -116,10 +116,7 @@ blogRouter.put("/:id", async (req, res) => {
 
 blogRouter.post("/:id/comments", async (request, response) => {
   try {
-    console.log("im in the route");
-
     const { id } = request.params;
-    console.log(id);
     const { commentText } = request.body;
 
     if (!commentText) {

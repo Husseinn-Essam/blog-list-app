@@ -33,7 +33,6 @@ const userExtractor = async (request, response, next) => {
   if (token) {
     const decodedToken = jwt.verify(token, process.env.SECRET);
     if (decodedToken.id) {
-      console.log(decodedToken.id);
       const user = await User.findById(decodedToken.id);
 
       request.user = user;

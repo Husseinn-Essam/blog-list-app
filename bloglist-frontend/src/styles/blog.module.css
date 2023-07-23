@@ -1,0 +1,74 @@
+.blog {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  height: fit-content;
+  overflow: hidden;
+}
+.blog:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.blog p {
+  margin: 0;
+}
+.blog .content {
+  display: flex;
+  flex-direction: column;
+  width: 210px;
+  line-height: 1.5;
+  max-height: 15em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.blog a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.blog button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.blog button:hover {
+  background-color: #0056b3;
+}
+
+.blog .likes {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.blog a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color 0.2s ease;
+}
+
+.blog a:hover {
+  border-bottom-color: #007bff;
+}
+
+.blog .user {
+  color: #0056b3;
+  align-self: flex-end;
+}

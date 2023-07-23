@@ -1,25 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import blogService from "../services/blogs";
-const Blog = ({ blog, user }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
+import styles from "../styles/blog.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
+const Blog = ({ blog }) => {
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const likeBlogMutation = useMutation({
     mutationFn: blogService.update,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["blogs"]);
-    },
-  });
-
-  const deleteBlogMutation = useMutation({
-    mutationFn: blogService.remove,
     onSuccess: () => {
       queryClient.invalidateQueries(["blogs"]);
     },
@@ -37,49 +28,20 @@ const Blog = ({ blog, user }) => {
     }
   };
 
-  const handleRemoval = () => {
-    const result = window.confirm(
-      `Are you sure you want to remove ${blog.title}`
-    );
-    if (result) deleteBlogMutation.mutate(blog.id);
-  };
-  const isBlogCreatedByUser = user && blog.user && user.id === blog.user.id;
-  const [details, setDetails] = useState(false);
-  const toggleDetails = () => {
-    details ? setDetails(false) : setDetails(true);
-  };
   return (
-    <div style={blogStyle}>
-      {!details ? (
-        <div className="blogHead">
-          {blog.title} {blog.author}
-          <button id="view" onClick={toggleDetails}>
-            View
-          </button>
-        </div>
-      ) : (
-        <div className="blogDetails">
-          <p>
-            {blog.title} {blog.author}{" "}
-            <button onClick={toggleDetails} id="hide">
-              Hide
-            </button>
-          </p>
-          <p>{blog.url}</p>
-          <div>
-            <div className="likes">{`Likes: ${blog.likes}`} </div>
-            <button onClick={handleLike} id="like">
-              like
-            </button>
-          </div>
-          <p>{blog.user.username}</p>
-          {isBlogCreatedByUser && (
-            <button onClick={handleRemoval} id="remove-btn">
-              remove
-            </button>
-          )}
-        </div>
-      )}
+    <div className={styles["blog"]}>
+      <h2>{blog.title}</h2>
+      <p className={styles["content"]}>{blog.content}</p>
+      <Link to={`/blogs/${blog.id}`}>Read More</Link>
+
+      <button onClick={handleLike} id="like">
+        <FontAwesomeIcon icon={faThumbsUp} /> Like ({blog.likes})
+      </button>
+      <button onClick={() => navigate(`/blogs/${blog.id}`)} id="like">
+        <FontAwesomeIcon icon={faComment} /> Comment ({blog.comments.length})
+      </button>
+
+      <p className={styles["user"]}>By: {blog.user.username}</p>
     </div>
   );
 };

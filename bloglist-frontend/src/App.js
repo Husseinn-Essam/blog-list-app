@@ -12,6 +12,7 @@ import Users from "./components/Users";
 import Bloglist from "./components/Bloglist";
 import { useInitializerContext } from "./components/initializerContext";
 import BlogDetails from "./components/BlogDetails";
+import "./global.css";
 const App = () => {
   const [user, dispatchUserAction] = useContext(UserContext);
 
@@ -32,11 +33,11 @@ const App = () => {
   // Custom hook that access react queries in initializerContext.js
   // Queries to get data from DB to initialize the App
   const { users, currentBlogs } = useInitializerContext();
-  if (users.isLoading) {
+  if (users.isLoading || currentBlogs.isLoading) {
     return <div>loading data...</div>;
   }
 
-  if (users.isError) {
+  if (users.isError || currentBlogs.isError) {
     return <div>Service not available due to problems in server</div>;
   }
   // Get matched user
@@ -71,6 +72,10 @@ const App = () => {
         <div>
           <p>{user.client.username} is logged in</p>
           <Menu />
+          <button onClick={handleLogout}>logout</button>
+          <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
+            <BlogForm />
+          </Togglable>
           <Routes>
             <Route
               path="/blog-list"
@@ -86,10 +91,6 @@ const App = () => {
               element={<BlogDetails matchedBlog={matchedBlog} user={user} />}
             />
           </Routes>
-          <button onClick={handleLogout}>logout</button>
-          <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
-            <BlogForm />
-          </Togglable>
         </div>
       )}
     </div>

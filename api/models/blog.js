@@ -14,7 +14,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  url: { type: String, required: true },
+  content: { type: String, required: true },
   likes: { type: Number, default: 0 },
   comments: [commentSchema],
 });

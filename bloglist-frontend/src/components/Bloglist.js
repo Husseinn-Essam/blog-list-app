@@ -4,19 +4,24 @@ import Blog from "./Blog";
 import { useContext } from "react";
 import UserContext from "./UserContext";
 import { Link } from "react-router-dom";
+import blogListStyles from "../styles/blog-list.module.css";
+
 const Bloglist = ({ currentBlogs }) => {
   const [user, dispatchUserAction] = useContext(UserContext);
 
   return (
-    <div className="blog-list">
-      {currentBlogs.data
-        .sort((a, b) => b.likes - a.likes)
-        .map((blog) => (
-          // <Blog key={blog.id} blog={blog} user={user.client} /> Old Blog component
-          <li key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-          </li>
-        ))}
+    <div className={blogListStyles["container"]}>
+      <h1>All Blogs</h1>
+      <div className={blogListStyles["divider"]}></div>
+      <div className={blogListStyles["blog-list"]}>
+        {currentBlogs.data
+          .sort((a, b) => b.likes - a.likes)
+          .map((blog) => (
+            <li key={blog.id}>
+              <Blog key={blog.id} blog={blog} user={user.client} />
+            </li>
+          ))}
+      </div>
     </div>
   );
 };

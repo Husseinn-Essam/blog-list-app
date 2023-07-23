@@ -5,7 +5,7 @@ import blogService from "../services/blogs";
 const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [content, setContent] = useState("");
   const [message, dispatchMessage] = useContext(NotifContext);
 
   const queryClient = useQueryClient();
@@ -28,13 +28,13 @@ const BlogForm = () => {
     const createdBlog = {
       title,
       author,
-      url,
+      content,
     };
     addBlogMutation.mutate(createdBlog);
     notifyBlogSuccess(createdBlog);
     setTitle("");
     setAuthor("");
-    setUrl("");
+    setContent("");
   };
 
   return (
@@ -64,14 +64,14 @@ const BlogForm = () => {
           />
         </div>
         <div>
-          url:
+          What do you want to share?:
           <input
             type="text"
-            value={url}
+            value={content}
             name="url"
             id="url"
-            onChange={({ target }) => setUrl(target.value)}
-            placeholder="url"
+            onChange={({ target }) => setContent(target.value)}
+            placeholder="woah empty"
           />
         </div>
         <button type="submit" id="create-btn">

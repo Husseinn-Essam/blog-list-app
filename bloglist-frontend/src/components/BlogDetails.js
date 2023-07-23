@@ -61,7 +61,7 @@ const BlogDetails = ({ matchedBlog, user }) => {
   return (
     <div>
       <h2>{matchedBlog.title}</h2>
-      <p>{matchedBlog.url}</p>
+      <p>{matchedBlog.content}</p>
       <div>
         {matchedBlog.likes} likes{" "}
         <button onClick={handleLike} id="like">
