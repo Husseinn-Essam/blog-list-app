@@ -53,18 +53,13 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
       <Notification />
       {user.isLoggedin === false ? (
         <Login />
       ) : (
         <div>
-          <p>{user.client.username} is logged in</p>
           <Menu />
-
-          <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
-            <BlogForm />
-          </Togglable>
+          <BlogForm />
           <Routes>
             <Route path="/" element={<Login />} />
             <Route

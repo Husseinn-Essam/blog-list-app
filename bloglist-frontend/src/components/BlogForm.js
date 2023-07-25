@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NotifContext from "./NotifContext";
 import blogService from "../services/blogs";
+import createStyles from "../styles/create-blog.module.css";
 const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -38,7 +39,7 @@ const BlogForm = () => {
   };
 
   return (
-    <div>
+    <div className={createStyles["modal"]}>
       <h2>Create Blog</h2>
       <form onSubmit={addBlog}>
         <div>

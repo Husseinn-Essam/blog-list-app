@@ -1,0 +1,73 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  flex-direction: row;
+}
+
+.navbar h2 {
+  font-size: 24px;
+}
+
+.navbar a {
+  color: #fff;
+
+  margin-right: 20px;
+}
+
+.navbar a:hover {
+  color: #e0e0e0;
+}
+
+.navbar p {
+  margin: 0;
+  margin-left: 20px;
+}
+
+.navbar button {
+  background-color: #fff;
+  color: #007bff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.navbar button:hover {
+  background-color: #f0f0f0;
+}
+.login {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-left: auto;
+  align-items: baseline;
+}
+@media screen and (max-width: 768px) {
+  .login p {
+    display: none;
+  }
+}
+.links {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-left: 70px;
+  font-size: 20px;
+  text-decoration: underline;
+}
+
+#createBlog {
+  background-color: transparent;
+  color: #fff;
+  font-size: 20px;
+  padding: 0;
+}
+
+#createBlog:hover {
+  color: #e0e0e0;
+}

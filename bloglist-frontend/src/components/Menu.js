@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import UserContext from "./UserContext";
 import { useContext } from "react";
+import menuStyles from "../styles/menu.module.css";
 const Menu = () => {
   const navigate = useNavigate();
   const [user, dispatchUserAction] = useContext(UserContext);
@@ -20,14 +21,19 @@ const Menu = () => {
     paddingRight: 5,
   };
   return (
-    <div>
-      <Link style={padding} to="/users">
-        Users
-      </Link>
-      <Link style={padding} to="/blog-list">
-        All Blogs
-      </Link>
-      <button onClick={handleLogout}>logout</button>
+    <div className={menuStyles["navbar"]}>
+      <h1>blogs</h1>
+      <div className={menuStyles["links"]}>
+        <Link to="/users">Users</Link>
+        <Link style={padding} to="/blog-list">
+          All Blogs
+        </Link>
+        <button id={menuStyles["createBlog"]}>Create a Blog</button>
+      </div>
+      <div className={menuStyles["login"]}>
+        <p>{user.client.username} is logged in</p>
+        <button onClick={handleLogout}>Log out</button>
+      </div>
     </div>
   );
 };
