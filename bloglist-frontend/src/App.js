@@ -15,7 +15,7 @@ import BlogDetails from "./components/BlogDetails";
 import "./global.css";
 const App = () => {
   const [user, dispatchUserAction] = useContext(UserContext);
-
+  const navigate = useNavigate();
   const userMatch = useMatch("/users/:id");
   const blogMatch = useMatch("/blogs/:id");
 
@@ -50,15 +50,6 @@ const App = () => {
     : null;
 
   //Log out logic
-  const handleLogout = async (e) => {
-    console.log("logged out");
-    try {
-      window.localStorage.removeItem("loggedUser");
-      dispatchUserAction({ type: "LOGOUT" });
-    } catch (e) {
-      console.log("Failed to logout");
-    }
-  };
 
   return (
     <div>
@@ -70,11 +61,12 @@ const App = () => {
         <div>
           <p>{user.client.username} is logged in</p>
           <Menu />
-          <button onClick={handleLogout}>logout</button>
+
           <Togglable buttonLabel="Create a blog" ref={blogFormRef}>
             <BlogForm />
           </Togglable>
           <Routes>
+            <Route path="/" element={<Login />} />
             <Route
               path="/blog-list"
               element={<Bloglist currentBlogs={currentBlogs} />}

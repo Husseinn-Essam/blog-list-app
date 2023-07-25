@@ -3,7 +3,10 @@ import loginService from "../services/login";
 import blogService from "../services/blogs";
 import UserContext from "./UserContext";
 import NotifContext from "./NotifContext";
+import loginStyles from "../styles/login-page.module.css";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, dispatchMessage] = useContext(NotifContext);
@@ -18,6 +21,7 @@ const Login = () => {
       blogService.setToken(client.token);
       setUsername("");
       setPassword("");
+      navigate("/blog-list");
     } catch (err) {
       // Login error notif
       dispatchMessage({ type: "ERROR" });
@@ -26,10 +30,14 @@ const Login = () => {
       }, 5000);
     }
   };
-
+  const navRegister = (e) => {
+    e.preventDefault();
+    navigate("/register");
+  };
   return (
-    <>
-      <form onSubmit={handleLogin}>
+    <div className={loginStyles["container"]}>
+      <form className={loginStyles["login-form"]} onSubmit={handleLogin}>
+        <h1>Log in</h1>
         <div>
           username
           <input
@@ -49,12 +57,19 @@ const Login = () => {
             id="password"
             onChange={({ target }) => setPassword(target.value)}
           />
+          <button type="submit" id={loginStyles["log-in"]}>
+            Log in
+          </button>
+          <div id={loginStyles["divider"]}>
+            <span>or</span>
+            <hr></hr>
+          </div>
+          <button type="submit" onClick={navRegister}>
+            Create an account
+          </button>
         </div>
-        <button type="submit" id="Log-in">
-          Log in
-        </button>
       </form>
-    </>
+    </div>
   );
 };
 

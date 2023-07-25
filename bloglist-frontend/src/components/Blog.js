@@ -55,7 +55,7 @@ const Blog = ({ blog }) => {
       </div>
       <div className={styles["author"]}>
         <p> {blog.user.username}</p>
-        <FontAwesomeIcon icon={faUser} style={{ color: "#2171fd" }} />
+        <FontAwesomeIcon icon={faUser} style={{ color: "#479beb" }} />
       </div>
     </div>
   );
