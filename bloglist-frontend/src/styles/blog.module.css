@@ -1,37 +1,62 @@
 .blog {
   background-color: #fff;
-  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+
   position: relative;
   height: fit-content;
   overflow: hidden;
 }
+.blog-main {
+  padding: 10px;
+}
+
 .blog:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
+/* #readmore {
+  margin: 0 auto;
+} */
 .blog p {
   margin: 0;
 }
-.blog .content {
-  display: flex;
-  flex-direction: column;
+img {
+  height: 150px;
+  width: 100%;
+}
+.content {
+  position: relative;
   width: 210px;
   line-height: 1.5;
   max-height: 15em;
   text-overflow: ellipsis;
   overflow: hidden;
+  font-size: 15px;
 }
+
+.content::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px; /* Adjust the height of the fading effect */
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  pointer-events: none;
+}
+
 .blog a {
   text-decoration: none;
   color: #007bff;
 }
-
+.blog-title {
+  font-size: 20px;
+  font-weight: bold;
+}
 .blog button {
   margin-top: 10px;
   padding: 8px 15px;
@@ -68,7 +93,21 @@
   border-bottom-color: #007bff;
 }
 
-.blog .user {
+.author {
+  display: flex;
   color: #0056b3;
-  align-self: flex-end;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  align-self: center;
+}
+
+.act-container {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  align-items: center;
+}
+#like {
+  margin-right: 5px;
 }

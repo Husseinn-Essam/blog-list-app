@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 import blogService from "../services/blogs";
 import styles from "../styles/blog.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
+import {
+  faThumbsUp,
+  faComment,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 const Blog = ({ blog }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -30,18 +34,29 @@ const Blog = ({ blog }) => {
 
   return (
     <div className={styles["blog"]}>
-      <h2>{blog.title}</h2>
-      <p className={styles["content"]}>{blog.content}</p>
-      <Link to={`/blogs/${blog.id}`}>Read More</Link>
-
-      <button onClick={handleLike} id="like">
-        <FontAwesomeIcon icon={faThumbsUp} /> Like ({blog.likes})
-      </button>
-      <button onClick={() => navigate(`/blogs/${blog.id}`)} id="like">
-        <FontAwesomeIcon icon={faComment} /> Comment ({blog.comments.length})
-      </button>
-
-      <p className={styles["user"]}>By: {blog.user.username}</p>
+      <img src={`https://picsum.photos/id/4/5000/3333`} />
+      <div className={styles["blog-main"]}>
+        <p className={styles["blog-title"]}>{blog.title}</p>
+        <p className={styles["content"]}>{blog.content}</p>
+      </div>
+      <div className={styles["act-container"]}>
+        <Link id={styles["readmore"]} to={`/blogs/${blog.id}`}>
+          Read More
+        </Link>
+        <div>
+          <button onClick={handleLike} id={styles["like"]}>
+            <FontAwesomeIcon icon={faThumbsUp} /> Like ({blog.likes})
+          </button>
+          <button onClick={() => navigate(`/blogs/${blog.id}`)}>
+            <FontAwesomeIcon icon={faComment} /> Comment ({blog.comments.length}
+            )
+          </button>
+        </div>
+      </div>
+      <div className={styles["author"]}>
+        <p> {blog.user.username}</p>
+        <FontAwesomeIcon icon={faUser} style={{ color: "#2171fd" }} />
+      </div>
     </div>
   );
 };

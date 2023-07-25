@@ -65,9 +65,7 @@ const App = () => {
       <h2>blogs</h2>
       <Notification />
       {user.isLoggedin === false ? (
-        <Togglable buttonLabel="Log in">
-          <Login />
-        </Togglable>
+        <Login />
       ) : (
         <div>
           <p>{user.client.username} is logged in</p>
