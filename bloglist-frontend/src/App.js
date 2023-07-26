@@ -1,13 +1,11 @@
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useContext } from "react";
 import Menu from "./components/Menu";
 import UserDetails from "./components/UserDetails";
 import blogService from "./services/blogs";
 import Login from "./components/Login";
-import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
 import UserContext from "./components/UserContext";
-import { Routes, Route, useMatch, useNavigate } from "react-router-dom";
+import { Routes, Route, useMatch } from "react-router-dom";
 import Users from "./components/Users";
 import Bloglist from "./components/Bloglist";
 import { useInitializerContext } from "./components/initializerContext";
@@ -15,11 +13,9 @@ import BlogDetails from "./components/BlogDetails";
 import "./global.css";
 const App = () => {
   const [user, dispatchUserAction] = useContext(UserContext);
-  const navigate = useNavigate();
   const userMatch = useMatch("/users/:id");
   const blogMatch = useMatch("/blogs/:id");
 
-  const blogFormRef = useRef();
   // Gets the last logged in user from local
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedUser");

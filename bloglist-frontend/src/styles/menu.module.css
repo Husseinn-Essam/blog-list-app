@@ -6,6 +6,7 @@
   color: #fff;
   padding: 10px 20px;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .navbar h2 {
@@ -13,13 +14,16 @@
 }
 
 .navbar a {
-  color: #fff;
+  color: #479beb;
   text-decoration: none;
   margin-right: 20px;
+  border: solid 4px #fff;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 2px;
 }
 
 .navbar a:hover {
-  color: #e0e0e0;
   text-decoration: underline;
 }
 
@@ -64,19 +68,29 @@
 .links {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   margin-left: 70px;
   font-size: 20px;
+  color: #479beb;
+  text-decoration: none;
+  margin-right: 20px;
+  border-radius: 5px;
+  padding: 2px;
+  gap: 10px;
 }
 
 #createBlog {
   background-color: transparent;
-  color: #fff;
+  color: #479beb;
   font-size: 20px;
   padding: 0;
+  margin-right: 20px;
+  border: solid 4px #fff;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 2px;
 }
 
 #createBlog:hover {
-  color: #e0e0e0;
   text-decoration: underline;
 }

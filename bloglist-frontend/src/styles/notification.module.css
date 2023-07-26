@@ -1,0 +1,24 @@
+.notification {
+  color: #fff;
+  background-color: lightgrey;
+  font-size: 20px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  margin: 5px;
+  transition: 0.5s;
+}
+
+.notification.success {
+  color: green;
+  background-color: lightgreen;
+}
+
+.notification.error {
+  color: red;
+  background-color: #ffcccc;
+}

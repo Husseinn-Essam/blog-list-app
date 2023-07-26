@@ -4,9 +4,9 @@ import userService from "../services/userService";
 import usersStyle from "../styles/users.module.css";
 const Users = ({ users }) => {
   return (
-    <div>
-      <h2>Users</h2>
+    <>
       <div className={usersStyle["container"]}>
+        <h2>Users</h2>
         <ul>
           {users.data.map((user) => (
             <li className={usersStyle["list-item"]} key={user.id}>
@@ -16,7 +16,7 @@ const Users = ({ users }) => {
           ))}
         </ul>
       </div>
-    </div>
+    </>
   );
 };
 

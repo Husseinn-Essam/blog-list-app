@@ -1,35 +1,23 @@
 import { useContext } from "react";
 import NotifContext from "./NotifContext";
 
+import notificationStyles from "../styles/notification.module.css"; // Replace with your CSS module import
+
 const Notification = () => {
-  const [message, dispatchMessage] = useContext(NotifContext);
-  const styles = {
-    succNotif: {
-      color: "green",
-      background: "lightgrey",
-      fontSize: "20px",
-      borderStyle: "solid",
-      borderRadius: "5px",
-      padding: "10px",
-      marginBottom: "10px",
-    },
-    errNotif: {
-      color: "red",
-      background: "lightgrey",
-      fontSize: "20px",
-      borderStyle: "solid",
-      borderRadius: "5px",
-      padding: "10px",
-      marginBottom: "10px",
-    },
-  };
-  if (message === "") return null;
-  if (message) {
-    const notificationStyle = message.startsWith("Wrong")
-      ? styles.errNotif
-      : styles.succNotif;
-    return <div style={notificationStyle}>{message}</div>;
-  }
+  const [message] = useContext(NotifContext);
+
+  if (!message) return null;
+
+  const isSuccessNotif = message.startsWith("Wrong") ? false : true;
+  const notificationClass = isSuccessNotif
+    ? notificationStyles.success
+    : notificationStyles.error;
+
+  return (
+    <div className={`${notificationStyles.notification} ${notificationClass}`}>
+      {message}
+    </div>
+  );
 };
 
 export default Notification;
