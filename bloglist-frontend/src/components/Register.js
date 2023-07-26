@@ -14,13 +14,15 @@ const Register = ({ navLogin }) => {
   const queryClient = useQueryClient();
   const addUsersMutation = useMutation({
     mutationFn: userService.addUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["users"]);
+    onSuccess: () => {},
+    onError: () => {
+      console.log("ooakdoasd");
     },
   });
   const handleSubmit = async (user) => {
     try {
       addUsersMutation.mutate(user);
+      queryClient.invalidateQueries(["users"]);
       dispatchUserAction({ type: "LOGIN", payload: user });
       window.localStorage.setItem("loggedUser", JSON.stringify(user));
       blogService.setToken(user.token);
@@ -28,7 +30,7 @@ const Register = ({ navLogin }) => {
       setPassword("");
       navigate("/blog-list");
     } catch (err) {
-      console.log(err);
+      console.log("caught", err);
     }
   };
   return (
@@ -46,6 +48,7 @@ const Register = ({ navLogin }) => {
             name="Username"
             id="username"
             onChange={({ target }) => setUsername(target.value)}
+            required
           />
         </div>
         <div>
@@ -56,6 +59,7 @@ const Register = ({ navLogin }) => {
             name="name"
             id="name"
             onChange={({ target }) => setName(target.value)}
+            required
           />
         </div>
         <div>
@@ -66,6 +70,7 @@ const Register = ({ navLogin }) => {
             name="password"
             id="password"
             onChange={({ target }) => setPassword(target.value)}
+            required
           />
           <button type="submit" id={loginStyles["log-in"]}>
             Register
