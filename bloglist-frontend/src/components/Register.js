@@ -21,7 +21,6 @@ const Register = ({ navLogin }) => {
   const handleSubmit = async (user) => {
     try {
       addUsersMutation.mutate(user);
-      console.log(user);
       dispatchUserAction({ type: "LOGIN", payload: user });
       window.localStorage.setItem("loggedUser", JSON.stringify(user));
       blogService.setToken(user.token);

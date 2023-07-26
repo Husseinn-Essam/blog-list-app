@@ -8,3 +8,11 @@ body {
   height: 100vh;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
+#main {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}

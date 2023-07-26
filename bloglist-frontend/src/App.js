@@ -21,14 +21,14 @@ const App = () => {
 
   const blogFormRef = useRef();
   // Gets the last logged in user from local
-  // useEffect(() => {
-  //   const loggedUserJSON = window.localStorage.getItem("loggedUser");
-  //   if (loggedUserJSON) {
-  //     const lastLoggedin = JSON.parse(loggedUserJSON);
-  //     dispatchUserAction({ type: "LOGIN", payload: lastLoggedin });
-  //     blogService.setToken(lastLoggedin.token);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedUser");
+    if (loggedUserJSON) {
+      const lastLoggedin = JSON.parse(loggedUserJSON);
+      dispatchUserAction({ type: "LOGIN", payload: lastLoggedin });
+      blogService.setToken(lastLoggedin.token);
+    }
+  }, []);
 
   // Custom hook that access react queries in initializerContext.js
   // Queries to get data from DB to initialize the App
@@ -52,12 +52,12 @@ const App = () => {
   //Log out logic
 
   return (
-    <div>
+    <>
       <Notification />
       {user.isLoggedin === false ? (
         <Login />
       ) : (
-        <div>
+        <div id="main">
           <Menu />
 
           <Routes>
@@ -82,7 +82,7 @@ const App = () => {
           </Routes>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
