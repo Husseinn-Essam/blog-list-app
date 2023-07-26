@@ -12,7 +12,7 @@ const Menu = () => {
     console.log("logged out");
     try {
       window.localStorage.removeItem("loggedUser");
-      navigate("/");
+      navigate("/login");
       dispatchUserAction({ type: "LOGOUT" });
     } catch (e) {
       console.log("Failed to logout");

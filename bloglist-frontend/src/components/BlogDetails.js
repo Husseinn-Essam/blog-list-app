@@ -2,6 +2,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import blogService from "../services/blogs";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import blogDetailsStyles from "../styles/blog-details.module.css";
 const BlogDetails = ({ matchedBlog, user }) => {
   const [commentText, setCommentText] = useState("");
   const queryClient = useQueryClient();
@@ -59,22 +62,29 @@ const BlogDetails = ({ matchedBlog, user }) => {
   if (!matchedBlog) return null;
 
   return (
-    <div>
-      <h2>{matchedBlog.title}</h2>
-      <p>{matchedBlog.content}</p>
-      <div>
-        {matchedBlog.likes} likes{" "}
-        <button onClick={handleLike} id="like">
-          like
+    <div className={blogDetailsStyles["blog-details"]}>
+      <h2 className={blogDetailsStyles["blog-title"]}>{matchedBlog.title}</h2>
+      <p className={blogDetailsStyles["blog-content"]}>{matchedBlog.content}</p>
+      <div className={blogDetailsStyles.likes}>
+        <button onClick={handleLike} className={blogDetailsStyles["like-btn"]}>
+          <FontAwesomeIcon icon={faThumbsUp} style={{ color: "#fafafa" }} />{" "}
+          like ({matchedBlog.likes})
         </button>
       </div>
       <p>Added by {matchedBlog.user.username}</p>
       {isBlogCreatedByUser && (
-        <button onClick={handleRemoval} id="remove-btn">
+        <button
+          onClick={handleRemoval}
+          className={blogDetailsStyles["remove-btn"]}
+        >
+          <FontAwesomeIcon icon={faTrashCan} style={{ color: "#ffffff" }} />{" "}
           remove
         </button>
       )}
-      <h3>Make a comment</h3>
+      <h2 className={blogDetailsStyles["comments-title"]}>Comments</h2>
+      <h3 className={blogDetailsStyles["comment-form-title"]}>
+        Make a comment
+      </h3>
       <form onSubmit={handleSubmitComment}>
         <input
           type="text"
@@ -84,8 +94,7 @@ const BlogDetails = ({ matchedBlog, user }) => {
         />
         <button type="submit">comment</button>
       </form>
-      <h2>Comments</h2>
-      <ul>
+      <ul className={blogDetailsStyles["comment-list"]}>
         {matchedBlog.comments.map((comment) => (
           <li key={comment._id}>
             <strong>{comment.user.username}</strong>: {comment.text}

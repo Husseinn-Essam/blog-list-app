@@ -10,4 +10,14 @@ const getUsers = async () => {
   }
 };
 
-export default { getUsers };
+const addUser = async (user) => {
+  try {
+    const response = await axios.post(baseUrl, user);
+    console.log("user created");
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export default { getUsers, addUser };

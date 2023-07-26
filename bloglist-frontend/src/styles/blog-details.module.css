@@ -1,0 +1,69 @@
+.blog-details {
+  min-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.blog-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.blog-content {
+  margin-bottom: 20px;
+}
+
+.likes {
+  margin-bottom: 10px;
+}
+
+.likes button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.likes button:hover {
+  background-color: #0056b3;
+}
+
+.comment-form-title {
+  margin-bottom: 5px;
+}
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.comment-list li {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  margin-top: 5px;
+  align-items: center;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.remove-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.remove-btn:hover {
+  background-color: #c82333;
+  cursor: pointer;
+}

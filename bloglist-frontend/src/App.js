@@ -21,14 +21,14 @@ const App = () => {
 
   const blogFormRef = useRef();
   // Gets the last logged in user from local
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedUser");
-    if (loggedUserJSON) {
-      const lastLoggedin = JSON.parse(loggedUserJSON);
-      dispatchUserAction({ type: "LOGIN", payload: lastLoggedin });
-      blogService.setToken(lastLoggedin.token);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const loggedUserJSON = window.localStorage.getItem("loggedUser");
+  //   if (loggedUserJSON) {
+  //     const lastLoggedin = JSON.parse(loggedUserJSON);
+  //     dispatchUserAction({ type: "LOGIN", payload: lastLoggedin });
+  //     blogService.setToken(lastLoggedin.token);
+  //   }
+  // }, []);
 
   // Custom hook that access react queries in initializerContext.js
   // Queries to get data from DB to initialize the App
@@ -78,6 +78,7 @@ const App = () => {
               path="/blogs/:id"
               element={<BlogDetails matchedBlog={matchedBlog} user={user} />}
             />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
       )}

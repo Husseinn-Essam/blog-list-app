@@ -62,6 +62,7 @@ const BlogForm = ({ showModal, handleCloseModal }) => {
                     name="title"
                     onChange={({ target }) => setTitle(target.value)}
                     placeholder="title"
+                    required
                   />
                 </div>
                 <div>
@@ -81,6 +82,7 @@ const BlogForm = ({ showModal, handleCloseModal }) => {
                     name="content"
                     onChange={({ target }) => setContent(target.value)}
                     placeholder="woah empty"
+                    required
                   />
                 </div>
                 <button type="submit" id="create-btn">
