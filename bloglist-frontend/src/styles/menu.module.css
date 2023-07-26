@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: #007bff;
+  background-color: #479beb;
   color: #fff;
   padding: 10px 20px;
   flex-direction: row;
@@ -14,12 +14,13 @@
 
 .navbar a {
   color: #fff;
-
+  text-decoration: none;
   margin-right: 20px;
 }
 
 .navbar a:hover {
   color: #e0e0e0;
+  text-decoration: underline;
 }
 
 .navbar p {
@@ -29,7 +30,7 @@
 
 .navbar button {
   background-color: #fff;
-  color: #007bff;
+  color: #479beb;
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
@@ -51,6 +52,14 @@
   .login p {
     display: none;
   }
+  .navbar {
+    flex-direction: column;
+  }
+  .login {
+    align-self: center;
+    margin-left: 0;
+    margin-top: 5px;
+  }
 }
 .links {
   display: flex;
@@ -58,7 +67,6 @@
   align-items: baseline;
   margin-left: 70px;
   font-size: 20px;
-  text-decoration: underline;
 }
 
 #createBlog {
@@ -70,4 +78,5 @@
 
 #createBlog:hover {
   color: #e0e0e0;
+  text-decoration: underline;
 }

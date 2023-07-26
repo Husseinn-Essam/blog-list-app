@@ -59,9 +59,12 @@ const App = () => {
       ) : (
         <div>
           <Menu />
-          <BlogForm />
+
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route
+              path="/"
+              element={<Bloglist currentBlogs={currentBlogs} />}
+            />
             <Route
               path="/blog-list"
               element={<Bloglist currentBlogs={currentBlogs} />}
