@@ -3,7 +3,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Blog from "./Blog";
 
-// delete those
+// to be updated
 
 const blog = {
   title: "gg",
