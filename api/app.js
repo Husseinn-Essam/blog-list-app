@@ -39,12 +39,10 @@ app.use(errorHandler);
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
-// Serve static assets (e.g., CSS, JS, images) from the 'public' folder
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/build")));
 
-// Catch-all route that serves the main HTML file
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "/build", "index.html"));
 });
 
 module.exports = app;
