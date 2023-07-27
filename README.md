@@ -20,7 +20,7 @@ Check out the Blog Web App in action! [Blog Website](https://blog-app-5qlg.onren
 - Express: A fast, unopinionated web framework for Node.js.
 - MongoDB: A popular NoSQL database for storing and managing data.
 - React Router: A library for handling routing in React applications.
-- React Query: A data-fetching library for managing and caching data on the client.
+- TanStack Query: A data-fetching library for managing and caching data on the client.
 - JSON Web Tokens (JWT): A standard for securely transmitting information between parties.
 - Render: A cloud platform for hosting and deploying web applications.
 
@@ -52,5 +52,5 @@ To get started with the Awesome Blog Web App, follow the installation instructio
 
 ## Acknowledgments
 
-- Thanks to the developers of React, Express, MongoDB, React Router, React Query, and JWT for their amazing contributions.
+- Thanks to the developers of React, Express, MongoDB, React Router, TanStack Query, and JWT for their amazing contributions.
 - Special thanks to the Render platform for providing hosting and deployment services.
