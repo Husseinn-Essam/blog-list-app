@@ -8,7 +8,7 @@ Welcome to the Blog Web App! This web application is built using React, Express,
 - Create and Delete Blogs: Authenticated users can create new blogs and delete their own blogs.
 - Comment and Like Blogs: Users can add comments and like blogs to engage with the content.
 - User Profiles: Each user has a profile displaying their blogs.
-- Local Storage: The app utilizes local storage to maintain user sessions between page refreshes.
+- Maintains user session: The app utilizes local storage to maintain user sessions between page refreshes.
 
 ## Demo
 
