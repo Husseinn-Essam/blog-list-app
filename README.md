@@ -49,7 +49,6 @@ To get started with the Awesome Blog Web App, follow the installation instructio
 - Accessibility Improvements: Enhance accessibility features to make the app more inclusive for all users.
 - UI/UX Refinements: Fine-tune the user interface and user experience for a polished look and feel.
 - Error Handling: Implement comprehensive error handling to provide clear feedback to users.
-- Mobile Responsiveness: Optimize the app for mobile devices to offer a seamless experience on all platforms.
 
 ## Acknowledgments
 
