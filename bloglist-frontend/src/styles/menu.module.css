@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: #479beb;
+  background-color: #141624;
   color: #fff;
   padding: 10px 20px;
   flex-direction: row;
@@ -14,18 +14,16 @@
 }
 
 .navbar a {
-  color: #479beb;
-  text-decoration: none;
-  margin-right: 20px;
-  border: solid 4px #fff;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 2px;
+  color: #fff;
+  text-emphasis: none;
+ text-decoration-line: none;
+  margin-left: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  
 }
 
-.navbar a:hover {
-  text-decoration: underline;
-}
+
 
 .navbar p {
   margin: 0;
@@ -33,17 +31,13 @@
 }
 
 .navbar button {
-  background-color: #fff;
-  color: #479beb;
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.navbar button:hover {
-  background-color: #f0f0f0;
-}
+
 .login {
   align-self: flex-end;
   display: flex;
@@ -52,19 +46,7 @@
   margin-left: auto;
   align-items: baseline;
 }
-@media screen and (max-width: 768px) {
-  .login p {
-    display: none;
-  }
-  .navbar {
-    flex-direction: column;
-  }
-  .login {
-    align-self: center;
-    margin-left: 0;
-    margin-top: 5px;
-  }
-}
+
 .links {
   display: flex;
   flex-direction: row;
@@ -77,20 +59,70 @@
   border-radius: 5px;
   padding: 2px;
   gap: 10px;
+  a:hover{
+    text-decoration: underline;
+  }
 }
 
 #createBlog {
   background-color: transparent;
-  color: #479beb;
+  color: #fff;
+  text-emphasis: none;
+ text-decoration-line: none;
+  margin-left: 20px;
   font-size: 20px;
-  padding: 0;
-  margin-right: 20px;
-  border: solid 4px #fff;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 2px;
+  font-weight: 500;
 }
 
 #createBlog:hover {
   text-decoration: underline;
+}
+
+
+.HomeLink{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+ padding-bottom: 0.5rem;
+ margin-top:0.5;
+}
+.HomeLink:hover {
+ background-color: #1a202c;
+}
+
+.custom-link {
+  display: inline-block;
+  background-color: transparent;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: white;
+}
+
+.custom-link:hover {
+  background-color: #4a4a4a;
+  text-decoration: none;
+}
+
+.bracket, .arrow {
+  font-size: 1.5rem;
+}
+
+.parentheses {
+  font-size: 1.25rem;
+}
+
+.text-yellow-400 {
+  color: #f59e0b;
+}
+
+.text-dark-primary {
+  color: #5a67d8; 
+}
+
+.text-white {
+  color: #ffffff;
 }

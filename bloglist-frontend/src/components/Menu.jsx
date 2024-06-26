@@ -4,8 +4,7 @@ import UserContext from "./UserContext";
 import { useContext, useState } from "react";
 import menuStyles from "../styles/menu.module.css";
 import BlogForm from "./BlogForm";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+
 const Menu = () => {
   const navigate = useNavigate();
   const [user, dispatchUserAction] = useContext(UserContext);
@@ -37,10 +36,17 @@ const Menu = () => {
     <>
       <BlogForm handleCloseModal={handleCloseModal} showModal={showModal} />
       <div className={menuStyles["navbar"]}>
-        <h1>
-          <FontAwesomeIcon icon={faBookOpen} style={{ color: "#ededed" }} />{" "}
-          blogs
-        </h1>
+      <div>
+      <div className={menuStyles["HomeLink"]}>
+      <Link className={menuStyles["links"]} to="/blog-list">
+        <span className={`${menuStyles["bracket"]} ${menuStyles["text-yellow-400"]}`}>{"{"}</span>
+        <span className={`${menuStyles["parentheses"]} ${menuStyles["text-dark-primary"]}`}>( )</span>
+        <span className={`${menuStyles["arrow"]} ${menuStyles["text-yellow-400"]}`}>{" =>"}</span>
+        <span className={menuStyles["text-white"]}> Slash.</span>
+        <span className={`${menuStyles["bracket"]} ${menuStyles["text-yellow-400"]}`}>{"}"}</span>
+      </Link>
+    </div>
+    </div>
         <div className={menuStyles["links"]}>
           <Link to="/users">Users</Link>
           <Link style={padding} to="/blog-list">
