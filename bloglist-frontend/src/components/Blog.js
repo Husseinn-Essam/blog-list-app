@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import blogService from "../services/blogs";
@@ -43,19 +42,24 @@ const Blog = ({ blog }) => {
         <Link id={styles["readmore"]} to={`/blogs/${blog.id}`}>
           Read More
         </Link>
-        <div>
-          <button onClick={handleLike} id={styles["like"]}>
-            <FontAwesomeIcon icon={faThumbsUp} /> Like ({blog.likes})
-          </button>
-          <button onClick={() => navigate(`/blogs/${blog.id}`)}>
-            <FontAwesomeIcon icon={faComment} /> Comment ({blog.comments.length}
-            )
-          </button>
-        </div>
       </div>
-      <div className={styles["author"]}>
-        <p> {blog.user.username}</p>
-        <FontAwesomeIcon icon={faUser} style={{ color: "#479beb" }} />
+      <div className={styles["metrics"]}>
+        <div className={styles["author"]}>
+          <FontAwesomeIcon icon={faUser} style={{ color: "#5a67d8" }} />
+
+          <p>{blog.user.username}</p>
+        </div>
+        <div id={styles["interactions"]}>
+          <div onClick={handleLike} id={styles["like"]}>
+            <FontAwesomeIcon icon={faThumbsUp} /> {blog.likes}
+          </div>
+          <div
+            onClick={() => navigate(`/blogs/${blog.id}`)}
+            id={styles["comment"]}
+          >
+            <FontAwesomeIcon icon={faComment} /> {blog.comments.length}
+          </div>
+        </div>
       </div>
     </div>
   );
