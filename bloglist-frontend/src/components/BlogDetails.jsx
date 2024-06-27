@@ -3,8 +3,9 @@ import blogService from "../services/blogs";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faThumbsUp, faTrashCan,faUser } from "@fortawesome/free-regular-svg-icons";
 import blogDetailsStyles from "../styles/blog-details.module.css";
+
 const BlogDetails = ({ matchedBlog, user }) => {
   const [commentText, setCommentText] = useState("");
   const queryClient = useQueryClient();
@@ -54,16 +55,21 @@ const BlogDetails = ({ matchedBlog, user }) => {
     navigate("/blog-list");
     if (result) deleteBlogMutation.mutate(matchedBlog.id);
   };
-  // Check if user created this blog to view the remove btn
   const isBlogCreatedByUser =
     user && matchedBlog.user && user.client.id === matchedBlog.user.id;
 
-  // In case of undefined match
   if (!matchedBlog) return null;
 
   return (
     <div className={blogDetailsStyles["blog-details"]}>
       <h2 className={blogDetailsStyles["blog-title"]}>{matchedBlog.title}</h2>
+      <div className={blogDetailsStyles["post-metrics"]}>
+      <img src="/profile.png" width={24} height={24}  />
+      <p>
+        {matchedBlog.user.username}
+      </p>
+      </div>
+      <img src="/water.jpg" height={400}/>
       <p className={blogDetailsStyles["blog-content"]}>{matchedBlog.content}</p>
       <div className={blogDetailsStyles.likes}>
         <button onClick={handleLike} className={blogDetailsStyles["like-btn"]}>
@@ -71,7 +77,7 @@ const BlogDetails = ({ matchedBlog, user }) => {
           like ({matchedBlog.likes})
         </button>
       </div>
-      <p>Added by {matchedBlog.user.username}</p>
+
       {isBlogCreatedByUser && (
         <button
           onClick={handleRemoval}
@@ -85,7 +91,7 @@ const BlogDetails = ({ matchedBlog, user }) => {
       <h3 className={blogDetailsStyles["comment-form-title"]}>
         Make a comment
       </h3>
-      <form onSubmit={handleSubmitComment}>
+      <form className={blogDetailsStyles["comment-form"]} onSubmit={handleSubmitComment}>
         <input
           type="text"
           value={commentText}

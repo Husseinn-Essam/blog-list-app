@@ -1,17 +1,47 @@
 .blog-details {
+  display: flex;
+  flex-direction: column;
+  max-width: 1024px;
+  padding: 2rem;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f8f8f8;
+  background-color: #141624;
   height: 100%;
+  color: #fff;
+}
+h2{
+  text-align: left ;
 }
 
-.blog-title {
-  font-size: 24px;
+
+.post-metrics{
+  display: flex;
+  align-items: center;
+  gap:0.3rem;
   margin-bottom: 10px;
+  img{
+    border-radius: 20px;
+  }
+  p{
+    margin-bottom: 0.1rem;
+    color: #4b5563;
+    font-weight: 600;
+  }
+}
+
+img{
+  border-radius: 1.25rem;
+}
+
+
+.blog-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  
 }
 
 .blog-content {
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .likes {
@@ -19,7 +49,7 @@
 }
 
 .likes button {
-  background-color: #007bff;
+  background-color:#5a67d8 ;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -29,7 +59,25 @@
 }
 
 .likes button:hover {
-  background-color: #0056b3;
+  background-color: #4c55a9;
+}
+
+.comment-form{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  input{
+    padding: 7px;
+    border-radius: 5px;
+
+    width: 100%;
+  }
+  button{
+    background-color:#5a67d8 ;
+  }
+  button:hover {
+    background-color: #4c55a9;
+  }
 }
 
 .comment-form-title {
@@ -42,14 +90,14 @@
 }
 
 .comment-list li {
-  border: 1px solid #ccc;
+
+  background-color: #4b5563;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
   margin-top: 5px;
   align-items: center;
-  background-color: #f9f9f9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
