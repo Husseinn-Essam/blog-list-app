@@ -1,22 +1,23 @@
 ul {
   list-style: none;
+  
 }
 
 .list-item {
-  border: 1px solid #ccc;
+ color: #fff;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f9f9f9;
+  background-color: #5a67d8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .list-item a {
   text-decoration: none;
-  color: #2f69a0;
+  color: #fff;
 }
 .list-item a:hover {
   text-decoration: underline;
@@ -26,6 +27,7 @@ ul {
   width: 100%;
   flex-direction: column;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #141624;
+  color: #fff;
   height: 100%;
 }

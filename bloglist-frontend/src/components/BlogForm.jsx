@@ -46,13 +46,16 @@ const BlogForm = ({ showModal, handleCloseModal }) => {
         <>
           <div className={createStyles.modal}>
             <div className={createStyles["modal-content"]}>
-              <span
-                className={createStyles["close-btn"]}
-                onClick={handleCloseModal}
-              >
-                <FontAwesomeIcon icon={faX} style={{ color: "#f5f5f5" }} />
-              </span>
-              <h2>Create Blog</h2>
+              <div className={createStyles["modal-content-header"]}>
+                <h2>Create Blog</h2>
+
+                <span
+                  className={createStyles["close-btn"]}
+                  onClick={handleCloseModal}
+                >
+                  <FontAwesomeIcon icon={faX} style={{ color: "#f5f5f5" }} />
+                </span>
+              </div>
               <form onSubmit={addBlog}>
                 <div>
                   title:

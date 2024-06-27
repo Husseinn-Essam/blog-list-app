@@ -6,7 +6,7 @@ const Users = ({ users }) => {
   return (
     <>
       <div className={usersStyle["container"]}>
-        <h2>Users</h2>
+        <h2>Wall of Fame</h2>
         <ul>
           {users.data.map((user) => (
             <li className={usersStyle["list-item"]} key={user.id}>
