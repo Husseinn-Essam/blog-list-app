@@ -41,7 +41,7 @@ const Register = ({ navLogin }) => {
       >
         <h1>Register</h1>
         <div>
-          username
+          Username
           <input
             type="text"
             value={username}
@@ -52,7 +52,7 @@ const Register = ({ navLogin }) => {
           />
         </div>
         <div>
-          full Name
+          Full Name
           <input
             type="text"
             value={name}
@@ -63,7 +63,7 @@ const Register = ({ navLogin }) => {
           />
         </div>
         <div>
-          password
+          Password
           <input
             type="password"
             value={password}

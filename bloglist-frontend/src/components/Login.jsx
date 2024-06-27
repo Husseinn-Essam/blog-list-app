@@ -47,7 +47,7 @@ const Login = () => {
           <form className={loginStyles["login-form"]} onSubmit={handleLogin}>
             <h1>Log in</h1>
             <div>
-              username
+              Username
               <input
                 type="text"
                 value={username}
@@ -57,7 +57,7 @@ const Login = () => {
               />
             </div>
             <div>
-              password
+              Password
               <input
                 type="password"
                 value={password}
