@@ -3,7 +3,7 @@ import { useReducer, useContext, createContext } from "react";
 const notifReducer = (state, action) => {
   switch (action.type) {
     case "BLOG_CREATION_SUCCESS":
-      return `A new blog "${action.payload.title}" by ${action.payload.author}`;
+      return `Post "${action.payload.title}" was created by ${action.payload.author}`;
     case "ERROR":
       return "Wrong username or password";
     case "MUTE":

@@ -6,19 +6,23 @@
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
-  position: absolute;
+  position: fixed;
   z-index: 1000;
-  width: 100%;
-  margin: 5px;
+  width: fit-content;
+  margin: 0 auto;
   transition: 0.5s;
+  top: 7%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .notification.success {
-  color: green;
-  background-color: lightgreen;
+  color: white;
+  background-color: #15803d;
 }
 
 .notification.error {
-  color: red;
-  background-color: #ffcccc;
+  color: white;
+  background-color:red;
 }

@@ -110,6 +110,7 @@ img{
   cursor: pointer;
   font-size: 16px;
   margin-top: 5px;
+  width: 100px;
 }
 
 .remove-btn:hover {

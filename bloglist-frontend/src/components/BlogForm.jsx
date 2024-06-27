@@ -34,6 +34,7 @@ const BlogForm = ({ showModal, handleCloseModal }) => {
       content,
     };
     addBlogMutation.mutate(createdBlog);
+    handleCloseModal();
     notifyBlogSuccess(createdBlog);
     setTitle("");
     setAuthor("");

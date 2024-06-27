@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import NotifContext from "./NotifContext";
-
-import notificationStyles from "../styles/notification.module.css"; // Replace with your CSS module import
+import notificationStyles from "../styles/notification.module.css";
 
 const Notification = () => {
   const [message] = useContext(NotifContext);
