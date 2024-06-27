@@ -49,17 +49,18 @@ const Navbar = () => {
       <nav className={menuStyles.navbar}>
         <div className={menuStyles.navbarContainer}>
           <div>
-            <Link className={menuStyles.navbarBrand} to="/home">
+            <Link className={menuStyles.navbarBrand} to="/blog-list">
               <span style={{ color: "#fbbf24" }}>{"{"}</span>
               <span style={{ color: "#4a5568" }}>( )</span>
               <span style={{ color: "#fbbf24" }}>{" =>"}</span>
-              <span style={{ color: "#ffffff" }}> Slash.</span>
+              <span style={{ color: "#ffffff" }}> Dev Blog</span>
               <span style={{ color: "#fbbf24" }}>{"}"}</span>
             </Link>
           </div>
           <div className={menuStyles.navbarLinks}>
-            <Link className={menuStyles.navbarLink} to="/home">Home</Link>
-            <Link className={menuStyles.navbarLink} to="/createPost">Create Post</Link>
+            <Link className={menuStyles.navbarLink} to="/blog-list">Home</Link>
+            <Link className={menuStyles.navbarLink} to="/users">Wall of fame</Link>
+            <button className={menuStyles.navbarLink} onClick={handleOpenModal}>Create Post</button>
             <button className={menuStyles.navbarLink}  onClick={handleLogout}>Log out</button>
           </div>
 
@@ -123,8 +124,9 @@ const Navbar = () => {
           id="mobile-menu"
         >
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link className={menuStyles.navbarMobileLink} to="/home">Home</Link>
-            <Link className={menuStyles.navbarMobileLink} to="/createPost">Create Post</Link>
+            <Link className={menuStyles.navbarMobileLink} to="/blog-list">Home</Link>
+            <Link className={menuStyles.navbarMobileLink} to="/users">Wall Of fame</Link>
+            <button  className={menuStyles.navbarMobileLink} onClick={handleOpenModal}>Create Post</button>
             <button className={menuStyles.navbarMobileLink} onClick={handleLogout}>Log out</button>
           </div>
         </div>
