@@ -38,7 +38,7 @@ app.use(express.static("build"));
 app.use(tokenExtractor);
 app.use("/api/blogs", userExtractor);
 app.use(errorHandler);
-app.use("/api/blogs", blogRouter);
+app.use('/api/blogs', tokenExtractor, userExtractor, blogRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
 app.use(express.static(path.join(__dirname, "./build")));

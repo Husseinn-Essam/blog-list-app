@@ -13,7 +13,7 @@ const Blog = ({ blog }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const likeBlogMutation = useMutation({
-    mutationFn: blogService.update,
+    mutationFn: blogService.like,
     onSuccess: () => {
       queryClient.invalidateQueries(["blogs"]);
     },
@@ -23,7 +23,6 @@ const Blog = ({ blog }) => {
     try {
       const newblog = {
         ...blog,
-        likes: blog.likes + 1,
       };
       likeBlogMutation.mutate(newblog);
     } catch (error) {
@@ -50,9 +49,9 @@ const Blog = ({ blog }) => {
           <p>{blog.user.username}</p>
         </div>
         <div id={styles["interactions"]}>
-          <div onClick={handleLike} id={styles["like"]}>
+          {/* <div onClick={handleLike} id={styles["like"]}>
             <FontAwesomeIcon icon={faThumbsUp} /> {blog.likes}
-          </div>
+          </div> */}
           <div
             onClick={() => navigate(`/blogs/${blog.id}`)}
             id={styles["comment"]}

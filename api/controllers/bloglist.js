@@ -3,7 +3,7 @@ const { response } = require("../app");
 const Blog = require("../models/blog");
 const { error } = require("../utils/logger");
 
-const errorHandler = require("../utils/middleware");
+const { tokenExtractor, userExtractor } = require("../utils/middleware");
 const User = require("../models/usersSchema");
 const jwt = require("jsonwebtoken");
 
@@ -32,6 +32,7 @@ blogRouter.post("/", async (request, response) => {
     }
 
     const user = request.user;
+    console.log(user)
 
     const newBlog = new Blog({
       title: request.body.title,
@@ -80,7 +81,6 @@ blogRouter.delete("/:id", async (request, response) => {
     );
     await user.save();
 
-    // Retrieve the updated user object with the populated blogs
     await user.populate("blogs");
 
     response.status(204).end();
@@ -101,19 +101,53 @@ blogRouter.get("/:id", async (request, response, next) => {
   }
 });
 
-blogRouter.put("/:id", async (req, res) => {
-  const newBlog = {
-    title: req.body.title,
-    author: req.body.author,
-    content: req.body.content,
-    likes: req.body.likes,
-  };
-  let updateBlog = await Blog.findByIdAndUpdate(req.params.id, newBlog, {
-    new: true,
-  });
-  res.json(updateBlog);
-});
+// blogRouter.put("/:id", tokenExtractor, userExtractor, async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { title, author, content } = req.body;
 
+//     const blog = await Blog.findById(id);
+//     if (!blog) {
+//       return res.status(404).json({ error: "Blog not found" });
+//     }
+
+//     const user = req.user;
+//     if (!user) {
+//       return res.status(401).json({ error: "User not authenticated" });
+//     }
+
+//     const likedByUser = user.likedBlogs.some(
+//       (blogId) => blogId.toString() === id
+//     );
+
+//     if (likedByUser) {
+//       user.likedBlogs = user.likedBlogs.filter(
+//         (blogId) => blogId.toString() !== id
+//       );
+
+//       blog.likes = blog.likes.filter(
+//         (userId) => userId.toString() !== user._id.toString()
+//       );
+//     } else {
+//       user.likedBlogs.push(blog._id);
+
+//       blog.likes.push(user._id);
+//     }
+
+//     blog.title = title;
+//     blog.author = author;
+//     blog.content = content;
+//     blog.likesCount = blog.likes.length;
+
+//     await user.save();
+//     const updatedBlog = await blog.save();
+
+//     res.json(updatedBlog);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 blogRouter.post("/:id/comments", async (request, response) => {
   try {
     const { id } = request.params;
@@ -123,13 +157,12 @@ blogRouter.post("/:id/comments", async (request, response) => {
       return response.status(400).json({ error: "Comment is required" });
     }
 
-    // Get the user making the comment from the request object (assuming you've set the user in an earlier middleware)
     const user = request.user;
     const updatedBlog = await Blog.findByIdAndUpdate(
       id,
       { $push: { comments: { text: commentText, user: user._id } } },
       { new: true }
-    ).populate("comments.user", "username"); // Populate the user field in the comment with the user's username
+    ).populate("comments.user", "username");
     if (!updatedBlog) {
       return response.status(404).json({ error: "Blog not found" });
     }

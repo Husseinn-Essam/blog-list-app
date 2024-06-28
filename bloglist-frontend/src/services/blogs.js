@@ -6,10 +6,10 @@ const setToken = (newToken) => {
   token = `Bearer ${newToken}`;
 };
 
-const getAll = () => {
+const getAll = async () => {
   try {
-    const request = axios.get(baseUrl);
-    return request.then((response) => response.data);
+    const response = await axios.get(baseUrl);
+    return response.data;
   } catch (e) {
     console.log(e);
   }
@@ -19,14 +19,26 @@ const create = async (newObj) => {
   const config = {
     headers: { Authorization: token },
   };
+
   const response = await axios.post(baseUrl, newObj, config);
   return response.data;
 };
 
-const update = async (newObj) => {
-  const request = await axios.put(`${baseUrl}/${newObj.id}`, newObj);
-  const data = await request.data;
-  return data;
+const like = async (newObj) => {
+  try {
+    console.log("Sending like request");
+
+    const config = {
+      headers: { Authorization: token },
+    };
+
+    const response = await axios.put(`${baseUrl}/${newObj.id}`, newObj, config);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error liking the blog:", error);
+    throw error;
+  }
 };
 
 const remove = async (id) => {
@@ -48,8 +60,7 @@ const comment = async (inputObj) => {
     },
     config
   );
-  const data = await response.data;
-  return data;
+  return response.data;
 };
 
-export default { getAll, create, update, remove, setToken, comment };
+export default { getAll, create, like, remove, setToken, comment };

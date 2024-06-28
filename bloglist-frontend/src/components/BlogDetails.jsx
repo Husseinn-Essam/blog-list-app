@@ -72,10 +72,10 @@ const BlogDetails = ({ matchedBlog, user }) => {
       <img src="/water.jpg" height={400}/>
       <p className={blogDetailsStyles["blog-content"]}>{matchedBlog.content}</p>
       <div className={blogDetailsStyles.likes}>
-        <button onClick={handleLike} className={blogDetailsStyles["like-btn"]}>
+        {/* <button onClick={handleLike} className={blogDetailsStyles["like-btn"]}>
           <FontAwesomeIcon icon={faThumbsUp} style={{ color: "#fafafa" }} />{" "}
           like ({matchedBlog.likes})
-        </button>
+        </button> */}
       </div>
 
       {isBlogCreatedByUser && (
